@@ -1,0 +1,38 @@
+name: Update Cotec-JSON
+
+# トリガー
+on: 
+    schedule:
+        - cron: '0 15 * * *' # 毎日0時 (日本時間)
+
+    # 手動実行用
+    workflow_dispatch:
+
+jobs:
+    update-cotec-json:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 22
+
+            # 依存関係のインストール
+            - name: Install dependencies
+              run: npm install
+
+            # 実行
+            - name: Run
+              run: npm run exec
+
+            # コミット, プッシュ (github-actions[bot])
+            - name: Commit & Push
+              run: |
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git add .
+                git commit --allow-empty -m "updated parsed-from-conlinguistics-wiki-list.ctc.json"
+                git push
