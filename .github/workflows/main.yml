@@ -1,4 +1,4 @@
-name: Update Cotec-JSON
+name: Update comma.json
 
 # トリガー
 on: 
@@ -26,7 +26,7 @@ jobs:
 
             # 実行
             - name: Run
-              run: npm run exec
+              run: npm start
 
             # コミット, プッシュ (github-actions[bot])
             - name: Commit & Push
@@ -34,5 +34,5 @@ jobs:
                 git config user.name "github-actions[bot]"
                 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
                 git add .
-                git commit --allow-empty -m "updated parsed-from-conlinguistics-wiki-list.ctc.json"
+                git commit --allow-empty -m "updated comma.json"
                 git push
