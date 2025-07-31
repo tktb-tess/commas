@@ -4,4 +4,5 @@ export type CommaData = {
   readonly monzo: readonly (readonly [number, number])[];
   readonly namedBy: string;
   readonly namedDate: string;
+  readonly ratio?: string;
 };

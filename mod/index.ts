@@ -10,68 +10,112 @@ const urls = [
   'https://en.xen.wiki/w/Medium_comma',
 ] as const;
 
-const pList = [...Array(65536)]
-  .map((_, i) => BigInt(i))
-  .filter((n) => millerRabin(n))
-  .map((n) => Number(n));
+const pList = Object.freeze(
+  Array(65536)
+    .fill(0)
+    .map((_, i) => BigInt(i))
+    .filter((n) => millerRabin(n))
+    .map((n) => Number(n))
+);
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
   const document = html.window.document;
+  const allData: CommaData[] = [];
 
-  const trs = [...document.querySelectorAll('tr:has(td)')]
-    .map((tr) => [...tr.querySelectorAll('td')])
-    .map((tds) =>
-      tds.map((td) => (td.textContent ?? '').replaceAll(/\n/g, '').trim())
-    );
-  const data = trs.map((row): CommaData => {
-    const [name, cName, cName2, , mnz, , named] = row;
-    const colorName = [cName, cName2] as const;
+  const tables = [...document.querySelectorAll('table')];
 
-    const namedDate = (() => {
-      const dateRegex = /\(\d+\)/;
-      const matched = dateRegex.exec(named);
-      if (!matched) return '';
-      return matched[0].slice(1, -1);
-    })();
+  tables.forEach((table) => {
+    const third = table.querySelectorAll('th').item(2);
+    const thirds = third.textContent?.replaceAll(/\n/g, '').trim();
+    const trs = [...table.querySelectorAll('tr:has(td)')]
+      .map((tr) => [...tr.querySelectorAll('td')])
+      .map((tds) =>
+        tds.map((td) => td.textContent?.replaceAll(/\n/g, '').trim() ?? '')
+      );
 
-    const namedBy = (() => {
-      const byRegex = /^.+\(/;
-      const matched = byRegex.exec(named);
-      if (!matched) return '';
-      return matched[0].slice(0, -1).trim();
-    })();
+    const tableData = trs.map((row): CommaData => {
+      const [name, cName, cName2] = row;
+      const mnz = (() => {
+        switch (thirds) {
+          case 'Ratio': {
+            return row[4];
+          }
+          case 'Monzo': {
+            return row[3];
+          }
+          default: {
+            throw Error(`unexpected value: ${thirds}`);
+          }
+        }
+      })();
 
-    const monzo = (() => {
-      const ketRegex = /\[[-\d\s]+⟩/;
-      const basisRegex = /(?:\d+\.)+\d+/;
-      const basisM = basisRegex.exec(mnz);
-      const ketM = ketRegex.exec(mnz);
-      if (!ketM) return [];
-      const values = ketM[0]
-        .slice(1, -1)
-        .split(/\s/)
-        .map((s) => Number.parseInt(s));
-      if (basisM) {
-        const basis = basisM[0].split('.').map((s) => Number.parseInt(s));
+      const named = (() => {
+        switch (thirds) {
+          case 'Ratio': {
+            return row[6];
+          }
+          case 'Monzo': {
+            return row[5];
+          }
+          default: {
+            throw Error(`unexpected value: ${thirds}`);
+          }
+        }
+      })();
 
-        return values.map((v, i) => [basis[i] ?? -1, v] as const);
-      } else {
-        const basis = pList.slice(0, values.length);
-        return values.map((v, i) => [basis[i], v] as const);
-      }
-    })();
+      const colorName = [cName, cName2] as const;
 
-    return {
-      name,
-      colorName,
-      monzo,
-      namedBy,
-      namedDate,
-    };
+      const namedDate = (() => {
+        const dateRegex = /\(\d+\)/;
+        const matched = dateRegex.exec(named);
+        if (!matched) return '';
+        return matched[0].slice(1, -1);
+      })();
+
+      const namedBy = (() => {
+        const byRegex = /^.+\(/;
+        const matched = byRegex.exec(named);
+        if (!matched) return '';
+        return matched[0].slice(0, -1).trim();
+      })();
+
+      const monzo = (() => {
+        const ketRegex = /\[[-\d\s]+⟩/;
+        const basisRegex = /(?:\d+\.)+\d+/;
+        const basisM = basisRegex.exec(mnz);
+        const ketM = ketRegex.exec(mnz);
+        if (!ketM) return [];
+        const values = ketM[0]
+          .slice(1, -1)
+          .split(/\s/)
+          .map((s) => Number.parseInt(s));
+        if (basisM) {
+          const basis = basisM[0].split('.').map((s) => Number.parseInt(s));
+
+          return values.map((v, i) => [basis[i] ?? -1, v] as const);
+        } else {
+          const basis = pList.slice(0, values.length);
+          return values.map((v, i) => [basis[i], v] as const);
+        }
+      })();
+
+      const ratio = (monzo.length === 0) ? row[3] : undefined;
+
+      return {
+        name,
+        colorName,
+        monzo,
+        namedBy,
+        namedDate,
+        ratio
+      };
+    });
+    allData.push(...tableData);
   });
+  
   console.log(url, 'success!');
-  return data;
+  return allData;
 };
 
 const main = async () => {
