@@ -1,12 +1,11 @@
-# コンマ
-
-コンマとは、微小な音程のことを指し、 Xenharmonic music では temper out などに関わる重要な概念のひとつです。
-
-このリポジトリでは、 Xenharmonic Wiki の ”Large comma” ”Medium comma” ”Small comma” ”Unnoticeable comma” の4つのページからコンマのデータを取得し、独自のJSON形式にパースしたのち、 [./out/comma.json](./out/comma.json) にまとめて保管しています。
-
-日本時間毎日0時頃に更新されます。
 
 [戻る](/.)
+
+コンマ (comma) とは、微小な音程のことを指し、 Xenharmonic music では temper out などに関わる重要な概念のひとつです。
+
+このリポジトリでは、 Xenharmonic Wiki の [Large comma](https://en.xen.wiki/w/Large_comma), [Medium comma](https://en.xen.wiki/w/Medium_comma), [Small comma](https://en.xen.wiki/w/Small_comma), [Unnoticeable comma](https://en.xen.wiki/w/Unnoticeable_comma) の4つのページからコンマのデータを取得し、独自のJSON形式にパースしたのち、 [`./out/comma.json`](./out/comma.json) にまとめて保管しています。
+
+日本時間毎日0時頃に更新されます。
 
 ## 型
 
