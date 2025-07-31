@@ -96,11 +96,11 @@ const fetchData = async (url: string) => {
           return values.map((v, i) => [basis[i] ?? -1, v] as const);
         } else {
           const basis = pList.slice(0, values.length);
-          return values.map((v, i) => [basis[i], v] as const);
+          return values.map((v, i) => [basis[i], v] as const).filter(([, v]) => v !== 0);
         }
       })();
 
-      const ratio = (monzo.length === 0) ? row[3] : undefined;
+      const ratio = monzo.length === 0 ? row[3] : undefined;
 
       return {
         name,
@@ -108,12 +108,12 @@ const fetchData = async (url: string) => {
         monzo,
         namedBy,
         namedDate,
-        ratio
+        ratio,
       };
     });
     allData.push(...tableData);
   });
-  
+
   console.log(url, 'success!');
   return allData;
 };

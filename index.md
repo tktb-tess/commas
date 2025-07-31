@@ -11,12 +11,12 @@
 
 ```typescript
 type CommaData = {
-  readonly name: string; // コンマ名
-  readonly colorName: readonly [string, string]; // コンマのColor name, [発音表記, 記号表記]
-  readonly monzo: readonly (readonly [number, number])[]; // モンゾ, [底の整数, 指数] のペアの配列
-  readonly namedBy?: string; // 命名者 (あれば)
-  readonly namedDate?: string; // 命名年 (あれば)
-  readonly ratio?: string; // 比率 (モンゾが無い無理比コンマなどのときのみ)
+  name: string; // コンマ名
+  colorName: [string, string]; // コンマのColor name, [発音表記, 記号表記]
+  monzo: [number, number][]; // モンゾ, [底の整数, 指数] のペアの配列
+  namedBy?: string; // 命名者 (あれば)
+  namedDate?: string; // 命名年 (あれば)
+  ratio?: string; // 比率 (モンゾが無い無理比コンマなどのときのみ)
 };
 ```
 
@@ -25,8 +25,8 @@ type CommaData = {
 ```json
 {
     "name": "Syntonic comma, Didymus comma, meantone comma",
-    "colorName": ["Gu","g1"],
-    "monzo": [[2,-4],[3,4],[5,-1]]
+    "colorName": ["Gu", "g1"],
+    "monzo": [[2, -4], [3, 4], [5, -1]]
 }
 ```
 
