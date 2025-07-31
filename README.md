@@ -1,3 +1,3 @@
 # commas
 
-コンマをJSON形式にまとめている。
+[GitHub Pages](https://tktb-tess.github.io/commas)
