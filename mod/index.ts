@@ -69,14 +69,14 @@ const fetchData = async (url: string) => {
       const namedDate = (() => {
         const dateRegex = /\(\d+\)/;
         const matched = dateRegex.exec(named);
-        if (!matched) return '';
+        if (!matched) return undefined;
         return matched[0].slice(1, -1);
       })();
 
       const namedBy = (() => {
         const byRegex = /^.+\(/;
         const matched = byRegex.exec(named);
-        if (!matched) return '';
+        if (!matched) return undefined;
         return matched[0].slice(0, -1).trim();
       })();
 
