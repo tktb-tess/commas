@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "npx tsx mod/index.ts"
+    "start": "npx tsx mod/index.ts",
+    "test": "npx tsx mod/test.ts"
   },
   "dependencies": {
     "jsdom": "^26.1.0"

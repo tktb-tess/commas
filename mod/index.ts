@@ -1,22 +1,7 @@
 import { JSDOM } from 'jsdom';
 import type { CommaData } from './types';
-import { millerRabin } from './util';
+import { urls, pList } from './data';
 import { writeFile } from 'node:fs/promises';
-
-const urls = [
-  'https://en.xen.wiki/w/Small_comma',
-  'https://en.xen.wiki/w/Large_comma',
-  'https://en.xen.wiki/w/Unnoticeable_comma',
-  'https://en.xen.wiki/w/Medium_comma',
-] as const;
-
-const pList = Object.freeze(
-  Array(65536)
-    .fill(0)
-    .map((_, i) => BigInt(i))
-    .filter((n) => millerRabin(n))
-    .map((n) => Number(n))
-);
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
@@ -50,7 +35,7 @@ const fetchData = async (url: string) => {
         }
       })();
 
-      const named = (() => {
+      const namedBy = (() => {
         switch (thirds) {
           case 'Ratio': {
             return row[6];
@@ -65,20 +50,6 @@ const fetchData = async (url: string) => {
       })();
 
       const colorName = [cName, cName2] as const;
-
-      const namedDate = (() => {
-        const dateRegex = /\(\d+\)/;
-        const matched = dateRegex.exec(named);
-        if (!matched) return undefined;
-        return matched[0].slice(1, -1);
-      })();
-
-      const namedBy = (() => {
-        const byRegex = /^.+\(/;
-        const matched = byRegex.exec(named);
-        if (!matched) return undefined;
-        return matched[0].slice(0, -1).trim();
-      })();
 
       const monzo = (() => {
         const ketRegex = /\[[-\d\s]+⟩/;
@@ -96,7 +67,9 @@ const fetchData = async (url: string) => {
           return values.map((v, i) => [basis[i] ?? -1, v] as const);
         } else {
           const basis = pList.slice(0, values.length);
-          return values.map((v, i) => [basis[i], v] as const).filter(([, v]) => v !== 0);
+          return values
+            .map((v, i) => [basis[i], v] as const)
+            .filter(([, v]) => v !== 0);
         }
       })();
 
@@ -107,26 +80,25 @@ const fetchData = async (url: string) => {
         colorName,
         monzo,
         namedBy,
-        namedDate,
         ratio,
       };
     });
     allData.push(...tableData);
   });
 
-  console.log(url, 'success!');
+  console.log(url, allData.length, 'success!');
   return allData;
 };
 
 const main = async () => {
   const tasks = urls.map((url) => fetchData(url));
-  const data = await Promise.all(tasks).then((data) => data.flat(1));
+  const data = await Promise.all(tasks).then((data) => data.flat());
 
   data.sort((a, b) => {
     const [resa, resb] = [a.monzo, b.monzo].map((monzo) => {
       if (monzo.length === 0) return Number.MAX_SAFE_INTEGER;
       return monzo
-        .map(([basis, value]) => 1200 * Math.log2(basis) * value)
+        .map(([basis, value]) => Math.log(basis) * value)
         .reduce((prev, current) => prev + current);
     });
 
@@ -134,7 +106,7 @@ const main = async () => {
   });
 
   await writeFile('out/comma.json', JSON.stringify(data));
-  console.log('All tasks succeeded!');
+  console.log(data.length, 'All tasks succeeded!');
 };
 
 main();
