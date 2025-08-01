@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import type { CommaData } from './types';
 import { urls, pList } from './data';
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
@@ -105,7 +105,8 @@ const main = async () => {
     return resa - resb;
   });
 
-  await writeFile('out/comma.json', JSON.stringify(data));
+  await mkdir('./out', { recursive: true });
+  await writeFile('./out/commas.json', JSON.stringify(data));
   console.log(data.length, 'All tasks succeeded!');
 };
 
