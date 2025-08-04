@@ -37,6 +37,7 @@ jobs:
           git fetch
           git pull origin gh-pages --no-rebase
           git checkout gh-pages
+          git log --graph --pretty=format:"%h %s"
           git merge --no-ff main
 
       # 依存関係のインストール
