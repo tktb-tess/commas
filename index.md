@@ -33,13 +33,20 @@ type Commas = {
 
 ```json
 {
-    "name": "Syntonic comma, Didymus comma, meantone comma",
-    "colorName": ["Gu", "g1"],
-    "monzo": [
-      [2, -4],
-      [3, 4],
-      [5, -1]
-    ]
+  "lastUpdate": "2025-08-04T08:21:52.764Z",
+  "numberOf": 1014
+}
+```
+
+```json
+{
+  "name": "Syntonic comma, Didymus comma, meantone comma",
+  "colorName": ["Gu", "g1"],
+  "monzo": [
+    [2, -4],
+    [3, 4],
+    [5, -1]
+  ]
 }
 ```
 
