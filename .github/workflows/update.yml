@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Update commas.json & Deploy gh-pages
+name: Update commas.json & push to gh-pages
 
 on:
   schedule:
