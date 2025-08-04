@@ -32,12 +32,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Checkout
+      - name: Merge
         run: |
           git fetch
           git checkout gh-pages
-          git merge main --no-ff --allow-unrelated-histories
           git checkout --theirs .
+          git merge main --no-ff --allow-unrelated-histories
           git add .
           git commit -m "resolved conflict"
           git push
