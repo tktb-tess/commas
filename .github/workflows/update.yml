@@ -35,15 +35,9 @@ jobs:
       - name: Checkout
         run: |
           git fetch
+          git log --graph --pretty=format:"%h %s"
           git pull origin gh-pages --no-rebase
           git checkout gh-pages
-
-      - name: Log
-        run: |
-          git log --graph --pretty=format:"%h %s"
-
-      - name: Merge
-        run: |
           git merge main --no-ff
 
       # 依存関係のインストール
