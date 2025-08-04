@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import type { CommaData } from './types';
+import type { CommaData, CommaMetadata } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
 
@@ -79,7 +79,7 @@ const fetchData = async (url: string) => {
         name,
         colorName,
         monzo,
-        namedBy,
+        namedBy: namedBy || undefined,
         ratio,
       };
     });
@@ -92,9 +92,9 @@ const fetchData = async (url: string) => {
 
 const main = async () => {
   const tasks = urls.map((url) => fetchData(url));
-  const data = await Promise.all(tasks).then((data) => data.flat());
+  const commas = await Promise.all(tasks).then((data) => data.flat());
 
-  data.sort((a, b) => {
+  commas.sort((a, b) => {
     const [resa, resb] = [a.monzo, b.monzo].map((monzo) => {
       if (monzo.length === 0) return Number.MAX_SAFE_INTEGER;
       return monzo
@@ -105,9 +105,14 @@ const main = async () => {
     return resa - resb;
   });
 
+  const metadata: CommaMetadata = {
+    lastUpdate: new Date().toISOString(),
+    numberOf: commas.length,
+  };
+
   await mkdir('./out', { recursive: true });
-  await writeFile('./out/commas.json', JSON.stringify(data));
-  console.log(data.length, 'All tasks succeeded!');
+  await writeFile('./out/commas.json', JSON.stringify({ metadata, commas }));
+  console.log(commas.length, 'All tasks succeeded!');
 };
 
 main();

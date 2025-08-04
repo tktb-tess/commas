@@ -10,12 +10,22 @@
 ## 型
 
 ```ts
+type CommaMetadata = {
+  lastUpdate: string; // 最終アップデート日時 (UTC, ISO 8601 形式)
+  numberOf: number; // コンマの総数
+};
+
 type CommaData = {
   name: string; // コンマ名
   colorName: [string, string]; // コンマのColor name, [発音表記, 記号表記]
   monzo: [number, number][]; // モンゾ, [底の整数, 指数] のペアの配列
   namedBy?: string; // 命名者 (あれば)
   ratio?: string; // 比率 (モンゾが無い無理比コンマなどのときのみ)
+};
+
+type Commas = {
+  metadata: CommaMetadata;
+  commas: CommaData[];
 };
 ```
 
