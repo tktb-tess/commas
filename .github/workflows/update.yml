@@ -35,7 +35,8 @@ jobs:
       - name: Checkout
         run: |
           git fetch
-          git pull origin gh-pages --no-rebase --allow-unrelated-histories
+          git merge origin/gh-pages --no-rebase --allow-unrelated-histories
+          git checkout --theirs .
           git checkout gh-pages
           git merge main --no-ff
 
