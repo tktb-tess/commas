@@ -38,6 +38,9 @@ jobs:
           git checkout gh-pages
           git merge main --no-ff --allow-unrelated-histories
           git checkout --theirs .
+          git add .
+          git commit -m "resolved conflict"
+          git push
 
       # 依存関係のインストール
       - name: Install dependencies
