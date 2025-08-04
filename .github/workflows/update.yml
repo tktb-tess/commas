@@ -1,4 +1,4 @@
-name: Update commas.json & push to gh-pages
+name: Update commas.json
 
 on:
   schedule:
