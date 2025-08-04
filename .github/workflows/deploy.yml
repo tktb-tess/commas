@@ -1,12 +1,11 @@
-
 name: Deploy GitHub Pages
 
 on:
-  # reuseable workflow
-  workflow_call:
-
   # 手動実行
   workflow_dispatch:
+
+  push:
+    branches: ["main"]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
