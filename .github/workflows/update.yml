@@ -36,8 +36,7 @@ jobs:
         run: |
           git fetch
           git checkout gh-pages
-          git merge origin/gh-pages --allow-unrelated-histories
-          git merge main --no-ff
+          git merge main --no-ff --allow-unrelated-histories
 
       # 依存関係のインストール
       - name: Install dependencies
