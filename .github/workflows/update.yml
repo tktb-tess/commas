@@ -37,6 +37,7 @@ jobs:
           git fetch
           git checkout gh-pages
           git merge main --no-ff --allow-unrelated-histories
+          git checkout --theirs .
 
       # 依存関係のインストール
       - name: Install dependencies
