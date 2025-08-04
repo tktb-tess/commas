@@ -35,8 +35,8 @@ jobs:
       - name: Checkout
         run: |
           git fetch
-          git merge origin/gh-pages --allow-unrelated-histories
           git checkout gh-pages
+          git merge origin/gh-pages --allow-unrelated-histories
           git merge main --no-ff
 
       # 依存関係のインストール
