@@ -1,0 +1,81 @@
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Update commas & Deploy gh-pages
+
+on:
+  schedule:
+    - cron: '0 15 * * *' # 毎日午前0時 (日本時間)
+
+  # 手動実行
+  workflow_dispatch:
+
+  # mainブランチにプッシュされる度に実行
+  push:
+    branches: ["main"]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  update-commas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 依存関係のインストール
+      - name: Install dependencies
+        run: npm install
+
+      # 実行
+      - name: Run
+        run: npm start
+
+      # コミット, プッシュ (github-actions[bot])
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit --allow-empty -m "updated commas.json"
+          git push
+
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    needs: update-commas
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [update-commas, build]
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
