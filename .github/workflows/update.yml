@@ -34,6 +34,7 @@ jobs:
 
       - name: Checkout & Merge from Main
         run: |
+          git fetch
           git pull origin gh-pages --no-rebase
           git checkout gh-pages
           git merge --no-ff main
