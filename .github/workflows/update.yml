@@ -27,21 +27,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Merge
-        run: |
-          git fetch
-          git checkout gh-pages
-          git checkout --theirs .
-          git merge main --no-ff --allow-unrelated-histories
-          git add .
-          git commit -m "resolved conflict"
-          git push
-
       # 依存関係のインストール
       - name: Install dependencies
         run: npm ci
@@ -49,6 +34,11 @@ jobs:
       # 実行
       - name: Run
         run: npm start
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Commit & Push
         run: |
