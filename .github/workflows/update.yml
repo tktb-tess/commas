@@ -32,13 +32,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Checkout & Merge from Main
+      - name: Checkout
         run: |
           git fetch
           git pull origin gh-pages --no-rebase
           git checkout gh-pages
+
+      - name: Log
+        run: |
           git log --graph --pretty=format:"%h %s"
-          git merge --no-ff main
+
+      - name: Merge
+        run: |
+          git merge main --no-ff
 
       # 依存関係のインストール
       - name: Install dependencies
