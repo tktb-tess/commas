@@ -7,10 +7,6 @@ on:
   # 手動実行
   workflow_dispatch:
 
-  # mainブランチにプッシュされる度に実行
-  push:
-    branches: ["main"]
-
 permissions:
   contents: write
   pages: write
