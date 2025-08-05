@@ -31,12 +31,16 @@ type Commas = {
 
 ### example
 
+#### メタデータ
+
 ```json
 {
   "lastUpdate": "2025-08-04T08:21:52.764Z",
   "numberOf": 1014
 }
 ```
+
+#### コンマデータ
 
 ```json
 {

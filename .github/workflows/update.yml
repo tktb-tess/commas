@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 15 * * *' # 毎日午前0時 (日本時間)
 
+  push:
+    branches: ["main"]
+
   # 手動実行
   workflow_dispatch:
 
