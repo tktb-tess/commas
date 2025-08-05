@@ -66,6 +66,9 @@ const fetchData = async (url: string) => {
 
           return values.map((v, i) => [basis[i] ?? -1, v] as const);
         } else {
+          if (values.length > pList.length) {
+            throw Error(`a length of the monzo exceeds that of the prime list: ${values.length}`);
+          }
           const basis = pList.slice(0, values.length);
           return values
             .map((v, i) => [basis[i], v] as const)
