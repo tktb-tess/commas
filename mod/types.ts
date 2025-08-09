@@ -11,6 +11,7 @@ type CommaType =
     };
 
 export type CommaData = CommaType & {
+  readonly id: string;
   readonly name: string[];
   readonly colorName: readonly [string, string];
   readonly namedBy?: string;
@@ -21,9 +22,7 @@ export type CommaMetadata = {
   readonly numberOf: number;
 };
 
-export type UUID = ReturnType<typeof crypto.randomUUID>;
-
 export type Commas = {
   readonly metadata: CommaMetadata;
-  readonly commas: Record<UUID, CommaData>;
+  readonly commas: CommaData[];
 };

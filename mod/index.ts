@@ -1,25 +1,26 @@
 import { JSDOM } from 'jsdom';
-import type { CommaData, CommaMetadata, Commas, UUID } from './types';
+import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { getHash } from './util';
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
   const document = html.window.document;
-  const allData: [UUID, CommaData][] = [];
+  const allData: CommaData[] = [];
 
   const tables = [...document.querySelectorAll('table')];
 
-  tables.forEach((table) => {
+  for (const table of tables) {
     const third = table.querySelectorAll('th').item(2);
     const thirds = third.textContent.replaceAll(/\n/g, '').trim();
     const trs = [...table.querySelectorAll('tr:has(td)')]
       .map((tr) => [...tr.querySelectorAll('td')])
       .map((tds) =>
-        tds.map((td) => td.textContent.replaceAll(/\n/g, '').trim())
+        tds.map((td) => td.textContent.replaceAll(/\n/g, ' ').trim())
       );
 
-    const tableData = trs.map((row): [UUID, CommaData] => {
+    const tableData = trs.map(async (row): Promise<CommaData> => {
       const name = row[0] ? row[0].split(',').map((s) => s.trim()) : [row[1]];
 
       const [, cName, cName2] = row;
@@ -38,17 +39,22 @@ const fetchData = async (url: string) => {
       })();
 
       const namedBy = (() => {
+        let n_: string | undefined;
         switch (thirds) {
           case 'Ratio': {
-            return row[6];
+            n_ = row[6];
+            break;
           }
           case 'Monzo': {
-            return row[5];
+            n_ = row[5];
+            break;
           }
           default: {
             throw Error(`unexpected value: ${thirds}`);
           }
         }
+
+        return n_ || undefined;
       })();
 
       const colorName = [cName, cName2] as const;
@@ -80,55 +86,52 @@ const fetchData = async (url: string) => {
         }
       })();
 
-      const uuid = crypto.randomUUID();
+      const id = name[0].toLowerCase().replaceAll(/\s/g, '-');
 
       if (monzo.length > 0) {
-        return [
-          uuid,
-          {
-            commaType: 'rational',
-            name,
-            colorName,
-            monzo,
-            namedBy: namedBy || undefined,
-          },
-        ];
+        return {
+          id,
+          commaType: 'rational',
+          name,
+          colorName,
+          monzo,
+          namedBy,
+        };
       } else {
         const ratio = row[3];
-        return [
-          uuid,
-          {
-            commaType: 'irrational',
-            name,
-            colorName,
-            ratio,
-            namedBy: namedBy || undefined,
-          },
-        ];
+        return {
+          id,
+          commaType: 'irrational',
+          name,
+          colorName,
+          ratio,
+          namedBy,
+        };
       }
     });
 
-    allData.push(...tableData);
-  });
+    await Promise.all(tableData).then((data) => allData.push(...data));
+  }
 
   console.log('success:', allData.length, 'commas in', url);
-  
+
   return allData;
 };
 
 const main = async () => {
   const tasks = urls.map((url) => fetchData(url));
-  const commas_ = await Promise.all(tasks).then((data) => data.flat());
+  const commas = await Promise.all(tasks).then((data) => data.flat());
 
-  commas_.sort(([, a], [, b]) => {
-
+  commas.sort((a, b) => {
     const [resa, resb] = [a, b].map((data) => {
       switch (data.commaType) {
         case 'irrational': {
-          return Number.MAX_SAFE_INTEGER;
+          return Infinity;
         }
         case 'rational': {
-          return data.monzo.map(([b, v]) => Math.log2(b) * v).reduce((prev, cur) => prev + cur, 0);
+          return data.monzo
+            .map(([b, v]) => 1200 * Math.log2(b) * v)
+            .reduce((prev, cur) => prev + cur, 0);
         }
       }
     });
@@ -136,26 +139,16 @@ const main = async () => {
     return resa - resb;
   });
 
-  const commas: Record<UUID, CommaData> = Object.fromEntries(commas_);
-
-  // check
-  if (Object.entries(commas).length === commas_.length) {
-    console.log('comma uuid check passed');
-  } else {
-    throw Error('invalid uuid');
-  }
-
   const metadata: CommaMetadata = {
     lastUpdate: new Date().toISOString(),
-    numberOf: commas_.length,
+    numberOf: commas.length,
   };
 
   const obj: Commas = { metadata, commas };
 
   await mkdir('./out', { recursive: true });
   await writeFile('./out/commas.json', JSON.stringify(obj));
-  console.log(commas_.length, 'All tasks succeeded!');
+  console.log(commas.length, 'All tasks succeeded!');
 };
 
 main();
-

@@ -26,6 +26,7 @@ type CommaType =
     };
 
 type CommaData = CommaType & {
+  id: string;
   name: string; // コンマ名
   colorName: [string, string]; // コンマのColor name, [発音表記, 記号表記]
   namedBy?: string; // 命名者 (あれば)
@@ -33,7 +34,7 @@ type CommaData = CommaType & {
 
 type Commas = {
   metadata: CommaMetadata;
-  commas: Record<UUID, CommaData>;
+  commas: CommaData[];
 };
 ```
 
@@ -52,16 +53,15 @@ type Commas = {
 
 ```json
 {
-  "ee477b83-4228-4031-a994-39995e5f9684": {
-      "commaType": "rational",
-      "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
-      "colorName": ["Gu", "g1"],
-      "monzo": [
-        [2, -4],
-        [3, 4],
-        [5, -1]
-      ]
-    }
+  "id": "syntonic-comma",
+  "commaType": "rational",
+  "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
+  "colorName": ["Gu", "g1"],
+  "monzo": [
+    [2, -4],
+    [3, 4],
+    [5, -1]
+  ]
 }
 ```
 
