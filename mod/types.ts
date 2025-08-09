@@ -17,8 +17,8 @@ export type CommaData = CommaType & {
 };
 
 export type CommaMetadata = {
-  readonly lastUpdate: string; // 最終アップデート日時 (UTC, ISO 8601 形式)
-  readonly numberOf: number; // コンマの総数
+  readonly lastUpdate: string;
+  readonly numberOf: number;
 };
 
 export type UUID = ReturnType<typeof crypto.randomUUID>;

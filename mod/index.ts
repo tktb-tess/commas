@@ -138,6 +138,12 @@ const main = async () => {
 
   const commas: Record<UUID, CommaData> = Object.fromEntries(commas_);
 
+  // check
+  if (Object.entries(commas).length === commas_.length) {
+    console.log('comma uuid check passed');
+  } else {
+    throw Error('invalid uuid');
+  }
 
   const metadata: CommaMetadata = {
     lastUpdate: new Date().toISOString(),

@@ -15,17 +15,25 @@ type CommaMetadata = {
   numberOf: number; // コンマの総数
 };
 
-type CommaData = {
+type CommaType =
+  | {
+      commaType: 'rational'; // 有理数コンマ
+      monzo: Monzo; // モンゾ, [底の整数, 指数] のペアの配列
+    }
+  | {
+      commaType: 'irrational'; // 無理数コンマ
+      ratio: string; // 比率
+    };
+
+type CommaData = CommaType & {
   name: string; // コンマ名
   colorName: [string, string]; // コンマのColor name, [発音表記, 記号表記]
-  monzo: [number, number][]; // モンゾ, [底の整数, 指数] のペアの配列
   namedBy?: string; // 命名者 (あれば)
-  ratio?: string; // 比率 (モンゾが無い無理比コンマなどのときのみ)
 };
 
 type Commas = {
   metadata: CommaMetadata;
-  commas: CommaData[];
+  commas: Record<UUID, CommaData>;
 };
 ```
 
@@ -44,13 +52,16 @@ type Commas = {
 
 ```json
 {
-  "name": "Syntonic comma, Didymus comma, meantone comma",
-  "colorName": ["Gu", "g1"],
-  "monzo": [
-    [2, -4],
-    [3, 4],
-    [5, -1]
-  ]
+  "ee477b83-4228-4031-a994-39995e5f9684": {
+      "commaType": "rational",
+      "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
+      "colorName": ["Gu", "g1"],
+      "monzo": [
+        [2, -4],
+        [3, 4],
+        [5, -1]
+      ]
+    }
 }
 ```
 
