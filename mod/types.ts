@@ -1,9 +1,19 @@
-export type CommaData = {
-  readonly name: string;
+type Monzo = readonly (readonly [number, number])[];
+
+type CommaType =
+  | {
+      readonly commaType: 'rational';
+      readonly monzo: Monzo;
+    }
+  | {
+      readonly commaType: 'irrational';
+      readonly ratio: string;
+    };
+
+export type CommaData = CommaType & {
+  readonly name: string[];
   readonly colorName: readonly [string, string];
-  readonly monzo: readonly (readonly [number, number])[];
   readonly namedBy?: string;
-  readonly ratio?: string;
 };
 
 export type CommaMetadata = {
@@ -11,7 +21,9 @@ export type CommaMetadata = {
   readonly numberOf: number; // コンマの総数
 };
 
+export type UUID = ReturnType<typeof crypto.randomUUID>;
+
 export type Commas = {
   readonly metadata: CommaMetadata;
-  readonly commas: readonly CommaData[];
+  readonly commas: Record<UUID, CommaData>;
 };

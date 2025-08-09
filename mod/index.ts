@@ -1,26 +1,28 @@
 import { JSDOM } from 'jsdom';
-import type { CommaData, CommaMetadata } from './types';
+import type { CommaData, CommaMetadata, Commas, UUID } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
   const document = html.window.document;
-  const allData: CommaData[] = [];
+  const allData: [UUID, CommaData][] = [];
 
   const tables = [...document.querySelectorAll('table')];
 
   tables.forEach((table) => {
     const third = table.querySelectorAll('th').item(2);
-    const thirds = third.textContent?.replaceAll(/\n/g, '').trim();
+    const thirds = third.textContent.replaceAll(/\n/g, '').trim();
     const trs = [...table.querySelectorAll('tr:has(td)')]
       .map((tr) => [...tr.querySelectorAll('td')])
       .map((tds) =>
-        tds.map((td) => td.textContent?.replaceAll(/\n/g, '').trim() ?? '')
+        tds.map((td) => td.textContent.replaceAll(/\n/g, '').trim())
       );
 
-    const tableData = trs.map((row): CommaData => {
-      const [name, cName, cName2] = row;
+    const tableData = trs.map((row): [UUID, CommaData] => {
+      const name = row[0] ? row[0].split(',').map((s) => s.trim()) : [row[1]];
+
+      const [, cName, cName2] = row;
       const mnz = (() => {
         switch (thirds) {
           case 'Ratio': {
@@ -67,7 +69,9 @@ const fetchData = async (url: string) => {
           return values.map((v, i) => [basis[i] ?? -1, v] as const);
         } else {
           if (values.length > pList.length) {
-            throw Error(`a length of the monzo exceeds that of the prime list: ${values.length}`);
+            throw Error(
+              `a length of the monzo exceeds that of the prime list: ${values.length}`
+            );
           }
           const basis = pList.slice(0, values.length);
           return values
@@ -76,48 +80,76 @@ const fetchData = async (url: string) => {
         }
       })();
 
-      const ratio = monzo.length === 0 ? row[3] : undefined;
+      const uuid = crypto.randomUUID();
 
-      return {
-        name,
-        colorName,
-        monzo,
-        namedBy: namedBy || undefined,
-        ratio,
-      };
+      if (monzo.length > 0) {
+        return [
+          uuid,
+          {
+            commaType: 'rational',
+            name,
+            colorName,
+            monzo,
+            namedBy: namedBy || undefined,
+          },
+        ];
+      } else {
+        const ratio = row[3];
+        return [
+          uuid,
+          {
+            commaType: 'irrational',
+            name,
+            colorName,
+            ratio,
+            namedBy: namedBy || undefined,
+          },
+        ];
+      }
     });
+
     allData.push(...tableData);
   });
 
-  console.log(url, allData.length, 'success!');
+  console.log('success:', allData.length, 'commas in', url);
+  
   return allData;
 };
 
 const main = async () => {
   const tasks = urls.map((url) => fetchData(url));
-  const commas = await Promise.all(tasks).then((data) => data.flat());
+  const commas_ = await Promise.all(tasks).then((data) => data.flat());
 
-  commas.sort((a, b) => {
-    const [resa, resb] = [a.monzo, b.monzo].map((monzo) => {
-      if (monzo.length === 0) return Number.MAX_SAFE_INTEGER;
-      return monzo
-        .map(([basis, value]) => Math.log(basis) * value)
-        .reduce((prev, current) => prev + current);
+  commas_.sort(([, a], [, b]) => {
+
+    const [resa, resb] = [a, b].map((data) => {
+      switch (data.commaType) {
+        case 'irrational': {
+          return Number.MAX_SAFE_INTEGER;
+        }
+        case 'rational': {
+          return data.monzo.map(([b, v]) => Math.log2(b) * v).reduce((prev, cur) => prev + cur, 0);
+        }
+      }
     });
 
     return resa - resb;
   });
 
+  const commas: Record<UUID, CommaData> = Object.fromEntries(commas_);
+
+
   const metadata: CommaMetadata = {
     lastUpdate: new Date().toISOString(),
-    numberOf: commas.length,
+    numberOf: commas_.length,
   };
 
+  const obj: Commas = { metadata, commas };
+
   await mkdir('./out', { recursive: true });
-  await writeFile('./out/commas.json', JSON.stringify({ metadata, commas }));
-  console.log(commas.length, 'All tasks succeeded!');
+  await writeFile('./out/commas.json', JSON.stringify(obj));
+  console.log(commas_.length, 'All tasks succeeded!');
 };
 
 main();
 
-export {};
