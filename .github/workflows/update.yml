@@ -2,7 +2,7 @@ name: Update commas.json
 
 on:
   schedule:
-    - cron: '0 15 * * *' # 毎日午前0時 (日本時間)
+    - cron: '0 15 1 * *' # 毎月2日午前0時 (日本時間)
 
   # 手動実行
   workflow_dispatch:
