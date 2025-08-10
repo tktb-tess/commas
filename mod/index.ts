@@ -2,7 +2,6 @@ import { JSDOM } from 'jsdom';
 import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { getHash } from './util';
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
@@ -86,7 +85,7 @@ const fetchData = async (url: string) => {
         }
       })();
 
-      const id = name[0].toLowerCase().replaceAll(/\s/g, '-');
+      const id = Buffer.from(name[0], 'utf8').toString('base64url');
 
       if (monzo.length > 0) {
         return {

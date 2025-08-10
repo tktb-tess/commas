@@ -52,16 +52,20 @@ type Commas = {
 #### コンマデータ
 
 ```json
-{
-  "id": "syntonic-comma",
-  "commaType": "rational",
-  "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
-  "colorName": ["Gu", "g1"],
-  "monzo": [
-    [2, -4],
-    [3, 4],
-    [5, -1]
-  ]
-}
+[
+  // ...
+  {
+    "id": "U3ludG9uaWMgY29tbWE",
+    "commaType": "rational",
+    "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
+    "colorName": ["Gu", "g1"],
+    "monzo": [
+      [2, -4],
+      [3, 4],
+      [5, -1]
+    ]
+  },
+  // ...
+]
 ```
 
