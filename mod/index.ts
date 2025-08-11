@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom';
 import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { getHash } from './util';
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
@@ -85,9 +86,10 @@ const fetchData = async (url: string) => {
         }
       })();
 
-      const id = Buffer.from(name[0], 'utf8').toString('base64url');
+      
 
       if (monzo.length > 0) {
+        const id = await getHash(monzo.join(';'), 'SHA-256').then((h) => h.toString('base64url'));
         return {
           id,
           commaType: 'rational',
@@ -98,6 +100,7 @@ const fetchData = async (url: string) => {
         };
       } else {
         const ratio = row[3];
+        const id = await getHash(ratio, 'SHA-256').then((h) => h.toString('base64url'));
         return {
           id,
           commaType: 'irrational',

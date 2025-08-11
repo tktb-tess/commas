@@ -8,7 +8,6 @@ export const getRndInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-
 export function toBigInt(nums: number): bigint;
 export function toBigInt(nums: number[]): bigint[];
 
@@ -22,7 +21,7 @@ export function toBigInt(nums: number | number[]) {
   } else {
     return nums.map((n) => BigInt(n));
   }
-};
+}
 
 /**
  * `length` ビットの乱数 or `length` ビット以下の乱数を出力する
@@ -411,26 +410,8 @@ export const getRandPrimeByBitLength = (bitLength: number) => {
   throw Error('noPrimesFound');
 };
 
-type GetHash = {
-  (str: string, encode: 'base64' | 'base64url'): Promise<string>;
-  (str: string, encode: 'binary'): Promise<Buffer>;
-};
-
-export const getHash: GetHash = async (
-  str: string,
-  encode: 'base64' | 'base64url' | 'binary'
-): Promise<any> => {
+export const getHash = async (str: string, algorithm: AlgorithmIdentifier) => {
   const encoded = Buffer.from(str, 'utf-8');
-  const hash = await crypto.subtle.digest('SHA-256', encoded);
-  switch (encode) {
-    case 'base64': {
-      return Buffer.from(hash).toString('base64');
-    }
-    case 'base64url': {
-      return Buffer.from(hash).toString('base64url');
-    }
-    case 'binary': {
-      return Buffer.from(hash);
-    }
-  }
+  const hash = await crypto.subtle.digest(algorithm, encoded);
+  return Buffer.from(hash);
 };
