@@ -53,7 +53,6 @@ type Commas = {
 
 ```json
 [
-  // ...
   {
     "id": "U3ludG9uaWMgY29tbWE",
     "commaType": "rational",
@@ -65,7 +64,6 @@ type Commas = {
       [5, -1]
     ]
   },
-  // ...
 ]
 ```
 
