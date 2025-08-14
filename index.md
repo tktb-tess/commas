@@ -23,6 +23,7 @@ type CommaType =
   | {
       commaType: 'irrational'; // 無理数コンマ
       ratio: string; // 比率
+      cents: number; // セント値
     };
 
 type CommaData = CommaType & {

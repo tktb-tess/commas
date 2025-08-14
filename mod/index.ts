@@ -3,6 +3,11 @@ import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { getHash } from './util';
+import { create, all } from 'mathjs';
+
+const math = create(all, {
+  number: 'number'
+});
 
 const fetchData = async (url: string) => {
   const html = await JSDOM.fromURL(url);
@@ -13,11 +18,18 @@ const fetchData = async (url: string) => {
 
   for (const table of tables) {
     const third = table.querySelectorAll('th').item(2);
-    const thirds = third.textContent.replaceAll(/\n/g, '').trim();
+    const thirdStr = third.textContent.replaceAll(/\n/g, '').trim();
     const trs = [...table.querySelectorAll('tr:has(td)')]
       .map((tr) => [...tr.querySelectorAll('td')])
       .map((tds) =>
-        tds.map((td) => td.textContent.replaceAll(/\n/g, ' ').trim())
+        tds.map((td) => {
+          const childs = [...td.childNodes];
+          const str = childs.map((ch) => {
+            return ch.nodeName === 'SUP' ? `^(${ch.textContent})` : ch.textContent ?? '';
+          }).join('');
+
+          return str.replaceAll(/\n/g, '\x20').trim();
+        })
       );
 
     const tableData = trs.map(async (row): Promise<CommaData> => {
@@ -25,7 +37,7 @@ const fetchData = async (url: string) => {
 
       const [, cName, cName2] = row;
       const mnz = (() => {
-        switch (thirds) {
+        switch (thirdStr) {
           case 'Ratio': {
             return row[4];
           }
@@ -33,14 +45,14 @@ const fetchData = async (url: string) => {
             return row[3];
           }
           default: {
-            throw Error(`unexpected value: ${thirds}`);
+            throw Error(`unexpected value: ${thirdStr}`);
           }
         }
       })();
 
       const namedBy = (() => {
         let n_: string | undefined;
-        switch (thirds) {
+        switch (thirdStr) {
           case 'Ratio': {
             n_ = row[6];
             break;
@@ -50,7 +62,7 @@ const fetchData = async (url: string) => {
             break;
           }
           default: {
-            throw Error(`unexpected value: ${thirds}`);
+            throw Error(`unexpected value: ${thirdStr}`);
           }
         }
 
@@ -100,6 +112,8 @@ const fetchData = async (url: string) => {
         };
       } else {
         const ratio = row[3];
+        const evaluated: number = math.evaluate(ratio.replaceAll(/π/g, 'pi'));
+        const cents = Math.log2(evaluated) * 1200;
         const id = await getHash(ratio, 'SHA-256').then((h) => h.toString('base64url'));
         return {
           id,
@@ -107,6 +121,7 @@ const fetchData = async (url: string) => {
           name,
           colorName,
           ratio,
+          cents,
           namedBy,
         };
       }
@@ -115,7 +130,7 @@ const fetchData = async (url: string) => {
     await Promise.all(tableData).then((data) => allData.push(...data));
   }
 
-  console.log('success:', allData.length, 'commas in', url);
+  console.log('success:', allData.length, 'commas from', url);
 
   return allData;
 };
@@ -128,7 +143,7 @@ const main = async () => {
     const [resa, resb] = [a, b].map((data) => {
       switch (data.commaType) {
         case 'irrational': {
-          return Infinity;
+          return data.cents;
         }
         case 'rational': {
           return data.monzo

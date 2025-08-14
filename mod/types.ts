@@ -8,6 +8,7 @@ type CommaType =
   | {
       readonly commaType: 'irrational';
       readonly ratio: string;
+      readonly cents: number;
     };
 
 export type CommaData = CommaType & {
