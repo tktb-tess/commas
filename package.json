@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsx mod/index.ts"
+    "start": "tsx mod/index.ts",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@types/jsdom": "^21.1.7",
