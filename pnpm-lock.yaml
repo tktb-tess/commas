@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@tktb-tess/util-fns':
+        specifier: ^0.5.1
+        version: 0.5.1
       '@types/jsdom':
         specifier: ^21.1.7
         version: 21.1.7
@@ -234,6 +237,10 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@tktb-tess/util-fns@0.5.1':
+    resolution: {integrity: sha512-qjD8vvmjtrW9/10BIbUQIVvFVTnqBVmJw26QVNl14u6Cqrb263bEdGDyGDBuV3XTbPRCoqUBiC3XvU8Wd6vKQQ==}
+    engines: {node: ^22.0.0}
 
   '@types/jsdom@21.1.7':
     resolution: {integrity: sha512-yOriVnggzrnQ3a9OKOCxaVuSug3w3/SbOj5i7VwXWZEyUNl3bLF9V3MfxGbZKuwqJOQyRfqXyROBB1CoZLFWzA==}
@@ -594,6 +601,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.9':
     optional: true
+
+  '@tktb-tess/util-fns@0.5.1': {}
 
   '@types/jsdom@21.1.7':
     dependencies:

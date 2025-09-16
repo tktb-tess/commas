@@ -2,11 +2,10 @@ import { JSDOM } from 'jsdom';
 import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { getHash } from './util';
 import { create, all } from 'mathjs';
 
 const math = create(all, {
-  number: 'number'
+  number: 'number',
 });
 
 const fetchData = async (url: string) => {
@@ -29,9 +28,13 @@ const fetchData = async (url: string) => {
       .map((tds) =>
         tds.map((td) => {
           const childs = [...td.childNodes];
-          const str = childs.map((ch) => {
-            return ch.nodeName === 'SUP' ? `^(${ch.textContent})` : ch.textContent ?? '';
-          }).join('');
+          const str = childs
+            .map((ch) => {
+              return ch.nodeName === 'SUP'
+                ? `^${ch.textContent}`
+                : ch.textContent ?? '';
+            })
+            .join('');
 
           return str.replaceAll(/\n/g, '\x20').trim();
         })
@@ -103,10 +106,12 @@ const fetchData = async (url: string) => {
         }
       })();
 
-      
-
       if (monzo.length > 0) {
-        const id = await getHash(monzo.join(';'), 'SHA-256').then((h) => h.toString('base64url'));
+        const id = (() => {
+          const pre = monzo.map(([b, v]) => `${b}:${v}`).join(',');
+          return Buffer.from(pre, 'utf8').toString('base64url');
+        })();
+        
         return {
           id,
           commaType: 'rational',
@@ -119,7 +124,8 @@ const fetchData = async (url: string) => {
         const ratio = row[3];
         const evaluated: number = math.evaluate(ratio.replaceAll(/π/g, 'pi'));
         const cents = Math.log2(evaluated) * 1200;
-        const id = await getHash(ratio, 'SHA-256').then((h) => h.toString('base64url'));
+        const id = Buffer.from(ratio, 'utf8').toString('base64url');
+
         return {
           id,
           commaType: 'irrational',

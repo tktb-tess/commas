@@ -1,4 +1,4 @@
-import { millerRabin } from './util';
+import { bailliePSW } from '@tktb-tess/util-fns';
 
 export const urls = [
   'https://en.xen.wiki/w/Small_comma',
@@ -10,5 +10,5 @@ export const urls = [
 export const pList = Array(10000)
   .fill(0)
   .map((_, i) => BigInt(i))
-  .filter((n) => millerRabin(n))
+  .filter((n) => bailliePSW(n))
   .map((n) => Number(n));
