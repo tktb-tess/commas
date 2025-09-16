@@ -10,7 +10,7 @@ const math = create(all, {
 });
 
 const fetchData = async (url: string) => {
-  const resp = await fetch(url);
+  const resp = await fetch(url, { method: 'GET' });
   if (!resp.ok) {
     throw Error(`failed to fetch:\n${resp.status} ${resp.statusText}`);
   }
