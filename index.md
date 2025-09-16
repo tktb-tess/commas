@@ -55,7 +55,7 @@ type Commas = {
 ```json
 [
   {
-    "id": "EnvIiat23KlRszeLJ-FB61lTKI-dlJmXmFeWmR5oAWQ",
+    "id": "MjotNCwzOjQsNTotMQ",
     "commaType": "rational",
     "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
     "colorName": ["Gu", "g1"],
