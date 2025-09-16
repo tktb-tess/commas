@@ -10,7 +10,12 @@ const math = create(all, {
 });
 
 const fetchData = async (url: string) => {
-  const html = await JSDOM.fromURL(url);
+  const resp = await fetch(url);
+  if (!resp.ok) {
+    throw Error(`failed to fetch:\n${resp.status} ${resp.statusText}`);
+  }
+  const domStr = await resp.text();
+  const html = new JSDOM(domStr);
   const document = html.window.document;
   const allData: CommaData[] = [];
 
