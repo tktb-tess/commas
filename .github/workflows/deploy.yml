@@ -1,4 +1,4 @@
-name: Deploy Github Pages
+name: Update & Build & Deploy
 
 on:
   # schedule:

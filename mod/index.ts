@@ -111,7 +111,7 @@ const fetchData = async (url: string) => {
           const pre = monzo.map(([b, v]) => `${b}:${v}`).join(',');
           return Buffer.from(pre, 'utf8').toString('base64url');
         })();
-        
+
         return {
           id,
           commaType: 'rational',
@@ -148,8 +148,14 @@ const fetchData = async (url: string) => {
 
 const main = async () => {
   const tasks = urls.map((url) => fetchData(url));
-  const commas = await Promise.all(tasks).then((data) => data.flat());
+  const commas = await Promise.allSettled(tasks).then((r) =>
+    r
+      .filter((r) => r.status === 'fulfilled')
+      .map((data) => data.value)
+      .flat()
+  );
 
+  // sorting
   commas.sort((a, b) => {
     const [resa, resb] = [a, b].map((data) => {
       switch (data.commaType) {
@@ -174,8 +180,7 @@ const main = async () => {
 
   const obj: Commas = { metadata, commas };
 
-  await mkdir('./out', { recursive: true });
-  await writeFile('./out/commas.json', JSON.stringify(obj));
+  await writeFile('./public/commas.json', JSON.stringify(obj));
   console.log(commas.length, 'All tasks succeeded!');
 };
 

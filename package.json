@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsx mod/index.ts",
+    "update": "tsx mod/index.ts",
+    "build": "astro build",
     "preinstall": "npx only-allow pnpm",
-    "delete": "rm -r -f out"
+    "delete": "rm -r -f public/commas.json"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
