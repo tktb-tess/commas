@@ -1,5 +1,10 @@
+---
+layout: ../layouts/layout.astro
+title: Commas
+---
 
-[戻る](/.)
+
+[戻る](https://tktb.github.io)
 
 コンマ (comma) とは、微小な音程のことを指し、 Xenharmonic music では temper out などに関わる重要な概念のひとつです。
 

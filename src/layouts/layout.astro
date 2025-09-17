@@ -1,0 +1,23 @@
+---
+import '../styles/main.css';
+type Props = {
+  frontmatter: {
+    readonly title: string;
+  };
+};
+const { frontmatter } = Astro.props;
+---
+
+<html lang='ja'>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{frontmatter.title}</title>
+  </head>
+  <body>
+    <div class="flex flex-col">
+      <h1>{frontmatter.title}</h1>
+      <slot />
+    </div>
+  </body>
+</html>
