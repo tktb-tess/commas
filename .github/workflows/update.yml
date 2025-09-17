@@ -12,6 +12,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: 'update'
@@ -55,6 +57,7 @@ jobs:
           git push
 
   deploy:
+    needs: update-commas
     uses: ./.github/workflows/deploy.yml
 
 
