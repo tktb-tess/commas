@@ -54,6 +54,6 @@ jobs:
           git commit --allow-empty -m "updated commas.json"
           git push
 
-      - uses: ./.github/workflow/deploy.yml
+      - uses: ./.github/workflows/deploy.yml
           
   
