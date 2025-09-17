@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "tsx mod/index.ts",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "delete": "rm -r -f out"
   },
   "dependencies": {
     "@tktb-tess/util-fns": "^0.5.1",
