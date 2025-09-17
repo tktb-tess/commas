@@ -179,8 +179,8 @@ const main = async () => {
   };
 
   const obj: Commas = { metadata, commas };
-
-  await writeFile('./public/commas.json', JSON.stringify(obj));
+  await mkdir('./public/out', { recursive: true });
+  await writeFile('./public/out/commas.json', JSON.stringify(obj));
   console.log(commas.length, 'All tasks succeeded!');
 };
 

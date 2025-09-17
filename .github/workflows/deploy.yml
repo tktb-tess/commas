@@ -19,7 +19,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Build job
   update-build:
     runs-on: ubuntu-latest
     steps:
@@ -36,8 +35,8 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm i
-      - name: Run
-        run: pnpm start
+      - name: Update commas.json
+        run: pnpm update-json
       - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"
@@ -47,12 +46,13 @@ jobs:
           git push
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - name: Build with Astro
+        run: pnpm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages

@@ -4,17 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "update": "tsx mod/index.ts",
+    "update-json": "tsx mod/index.ts",
     "build": "astro build",
     "preinstall": "npx only-allow pnpm",
-    "delete": "rm -r -f public/commas.json"
+    "delete": "rm -r -f public/out/commas.json"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.13",
     "@tktb-tess/util-fns": "^0.5.1",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^24.5.0",
+    "@types/node": "^24.5.1",
     "astro": "^5.13.8",
     "jsdom": "^27.0.0",
     "mathjs": "^14.7.0",

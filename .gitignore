@@ -2,3 +2,4 @@ node_modules/
 .arc/
 test.ts
 dist/
+.astro/
