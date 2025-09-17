@@ -6,6 +6,7 @@
   "scripts": {
     "update-json": "tsx mod/index.ts",
     "build": "astro build",
+    "dev": "astro dev",
     "preinstall": "npx only-allow pnpm",
     "delete": "rm -r -f public/out/commas.json"
   },

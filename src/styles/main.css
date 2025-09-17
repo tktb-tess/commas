@@ -1,2 +1,7 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@theme {
+    --font-sans: 'Inter', 'Arial', 'Helvetica Neue', 'Noto Sans JP', 'Source Han Sans', 'Yu Gothic UI', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+}
+

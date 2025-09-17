@@ -14,10 +14,11 @@ const { frontmatter } = Astro.props;
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{frontmatter.title}</title>
   </head>
-  <body>
-    <div class="flex flex-col">
+  <body class="bg-slate-50 dark:bg-slate-950">
+    <div class="prose w-full max-w-320 px-4 prose-lg prose-slate mx-auto prose-h1:text-center prose-h1:my-12 prose-h1:font-extralight">
       <h1>{frontmatter.title}</h1>
       <slot />
+      <div class="h-10"></div>
     </div>
   </body>
 </html>
