@@ -13,10 +13,12 @@ const { frontmatter } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link href="/favicon.ico" type="icon">
     <title>{frontmatter.title}</title>
   </head>
   <body class="bg-slate-50 dark:bg-slate-950">
-    <div class="prose dark:prose-invert w-full max-w-320 px-4 prose-lg prose-slate mx-auto prose-h1:text-center prose-h1:my-12 prose-h1:font-extralight prose-a:hover:opacity-60">
+    <div class="prose dark:prose-invert w-full max-w-320 px-4 lg:prose-lg prose-slate mx-auto prose-h1:text-center prose-h1:my-12 prose-h1:font-extralight prose-a:hover:opacity-60">
       <h1>{frontmatter.title}</h1>
       <slot />
       <div class="h-10"></div>
