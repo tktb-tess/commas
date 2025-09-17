@@ -4,8 +4,8 @@ on:
   # schedule:
   #  - cron: '0 15 1 * *' # 毎月2日午前0時 (日本時間)
 
-  # push:
-    # branches: [main]
+  push:
+    branches: [main]
 
   # 手動実行
   workflow_dispatch:
@@ -54,6 +54,9 @@ jobs:
           git commit --allow-empty -m "updated commas.json"
           git push
 
-      - uses: ./.github/workflows/deploy.yml
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+
+
           
   
