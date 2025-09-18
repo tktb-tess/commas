@@ -4,8 +4,8 @@ on:
   schedule:
    - cron: '0 15 1 * *' # 毎月2日午前0時 (日本時間)
 
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
 
   workflow_dispatch:
 
