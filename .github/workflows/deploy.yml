@@ -1,4 +1,4 @@
-name: Update & Build & Deploy
+name: Update, Build, & Deploy
 
 on:
   schedule:
@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Update commas.json
-        run: pnpm update-json
+        run: pnpm run update-json
       - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"
@@ -47,11 +47,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Astro
-        run: pnpm build
+        run: pnpm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: './dist'
 
   deploy:
     environment:

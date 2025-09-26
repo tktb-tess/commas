@@ -7,6 +7,7 @@
     "update-json": "tsx mod/index.ts",
     "build": "astro build",
     "dev": "astro dev",
+    "start": "astro preview",
     "astro": "astro",
     "preinstall": "npx only-allow pnpm",
     "delete": "rm -r -f public/out/commas.json"
@@ -20,7 +21,6 @@
     "astro": "^5.13.8",
     "jsdom": "^27.0.0",
     "mathjs": "^14.7.0",
-    "npm-check-updates": "^18.1.1",
     "tailwindcss": "^4.1.13",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"

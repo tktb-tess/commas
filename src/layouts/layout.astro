@@ -1,6 +1,6 @@
 ---
 import '../styles/main.css';
-type Props = {
+interface Props {
   frontmatter: {
     readonly title: string;
   };
@@ -11,17 +11,25 @@ const { frontmatter } = Astro.props;
 <!doctype html>
 <html lang='ja'>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <link href="/favicon.ico" type="icon">
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <meta name='generator' content={Astro.generator} />
+    <link href='/favicon.ico' type='icon' />
+    <link
+      rel='stylesheet'
+      href='https://tktb-tess.github.io/resources/fonts/Inter/setting.css'
+    />
     <title>{frontmatter.title}</title>
   </head>
-  <body class="bg-slate-50 dark:bg-slate-950">
-    <div class="prose dark:prose-invert w-full max-w-320 px-4 lg:prose-lg prose-slate mx-auto prose-h1:text-center prose-h1:my-12 prose-h1:font-extralight prose-a:hover:opacity-60">
-      <h1>{frontmatter.title}</h1>
+  <body class='bg-slate-50 dark:bg-slate-950 flow-root'>
+    <header>
+      <h1 class='text-center my-12 font-extralight dark:text-white text-4xl xl:text-5xl'>{frontmatter.title}</h1>
+    </header>
+    <main
+      class='prose prose-sm lg:prose-base prose-slate dark:prose-invert w-full max-w-320 px-4 mx-auto prose-a:hover:opacity-60 prose-headings:font-normal'
+    >
       <slot />
-      <div class="h-10"></div>
-    </div>
+      <div class='h-10'></div>
+    </main>
   </body>
 </html>

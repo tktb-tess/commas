@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://tktb-tess.github.io',
-  base: '/commas',
+  base: '/commas/',
   vite: {
     plugins: [tailwindcss()],
   },
