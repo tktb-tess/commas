@@ -3,6 +3,7 @@ import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { create, all } from 'mathjs';
+import { encode } from 'cbor2';
 
 const math = create(all, {
   number: 'number',
@@ -59,7 +60,8 @@ const fetchData = async (url: string) => {
       })();
 
       const namedBy = (() => {
-        let n_: string | undefined;
+        let n_: string;
+        
         switch (thirdStr) {
           case 'Ratio': {
             n_ = row[6];
@@ -108,8 +110,7 @@ const fetchData = async (url: string) => {
 
       if (monzo.length > 0) {
         const id = (() => {
-          const pre = monzo.map(([b, v]) => `${b}:${v}`).join(',');
-          return Buffer.from(pre, 'utf8').toString('base64url');
+          return Buffer.copyBytesFrom(encode(monzo)).toString('base64url');
         })();
 
         return {

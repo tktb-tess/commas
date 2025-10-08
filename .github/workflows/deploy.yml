@@ -1,11 +1,8 @@
-name: Update, Build, & Deploy
+name: Update, Build, and Deploy
 
 on:
   schedule:
    - cron: '0 15 1 * *' # 毎月2日午前0時 (日本時間)
-
-  # push:
-  #   branches: [main]
 
   workflow_dispatch:
 
@@ -15,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -24,19 +21,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
+
       - name: Update commas.json
         run: pnpm run update-json
+
       - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"
@@ -44,14 +46,17 @@ jobs:
           git add .
           git commit --allow-empty -m "updated commas.json"
           git push
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Build with Astro
+        
+      - name: Build Astro
         run: pnpm run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: dist
 
   deploy:
     environment:

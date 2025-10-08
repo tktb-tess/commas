@@ -14,7 +14,7 @@ title: Commas
 
 ## 型
 
-```typescript
+```ts
 type Monzo = Array<readonly [number, number]>; // モンゾ, [底の整数, 指数] のペアの配列
 
 type CommaMetadata = {
