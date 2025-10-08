@@ -1,6 +1,10 @@
+minimumReleaseAge: 2880
+
+minimumReleaseAgeExclude:
+  - '@tktb-tess/*'
+
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
+  - '@tktb-tess/my-zod-schema'
   - esbuild
   - sharp
-
-minimumReleaseAge: 2880
