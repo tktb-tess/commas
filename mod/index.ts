@@ -110,7 +110,8 @@ const fetchData = async (url: string) => {
 
       if (monzo.length > 0) {
         const id = (() => {
-          return Buffer.copyBytesFrom(encode(monzo)).toString('base64url');
+          const cbor = encode(monzo);
+          return Buffer.from(cbor.buffer, cbor.byteOffset, cbor.byteLength).toString('base64url');
         })();
 
         return {
