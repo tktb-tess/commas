@@ -4,7 +4,7 @@ interface Props {
   frontmatter: {
     readonly title: string;
   };
-};
+}
 const { frontmatter } = Astro.props;
 ---
 
@@ -17,13 +17,17 @@ const { frontmatter } = Astro.props;
     <link href='/favicon.ico' type='icon' />
     <link
       rel='stylesheet'
-      href='https://tktb-tess.github.io/resources/fonts/Inter/setting.css'
+      href='https://api.tktb-tess.dev/fonts/Inter/font-face.css'
     />
     <title>{frontmatter.title}</title>
   </head>
   <body class='bg-slate-50 dark:bg-slate-950 flow-root'>
     <header>
-      <h1 class='text-center my-12 font-extralight dark:text-white text-4xl xl:text-5xl'>{frontmatter.title}</h1>
+      <h1
+        class='text-center my-12 font-extralight dark:text-white text-4xl xl:text-5xl'
+      >
+        {frontmatter.title}
+      </h1>
     </header>
     <main
       class='prose prose-sm lg:prose-base prose-slate dark:prose-invert w-full max-w-320 px-4 mx-auto prose-a:hover:opacity-60 prose-headings:font-normal'
