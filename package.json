@@ -8,8 +8,7 @@
     "build": "astro build",
     "dev": "astro dev",
     "start": "astro preview",
-    "astro": "astro",
-    "delete": "rm -r -f public/out/commas.json"
+    "astro": "astro"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
