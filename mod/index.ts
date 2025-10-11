@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import type { CommaData, CommaMetadata, Commas } from './types';
 import { urls, pList } from './data';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { create, all } from 'mathjs';
 import { encode } from 'cbor2';
 
@@ -61,7 +61,7 @@ const fetchData = async (url: string) => {
 
       const namedBy = (() => {
         let n_: string;
-        
+
         switch (thirdStr) {
           case 'Ratio': {
             n_ = row[6];
@@ -110,8 +110,11 @@ const fetchData = async (url: string) => {
 
       if (monzo.length > 0) {
         const id = (() => {
-          return Buffer.copyBytesFrom(encode(monzo)).toString('base64url');
+          const { buffer, byteOffset, length } = encode(monzo);
+          return Buffer.from(buffer, byteOffset, length).toString('base64url');
         })();
+
+        // console.log(name[0], 'was parsed');
 
         return {
           id,
@@ -126,6 +129,8 @@ const fetchData = async (url: string) => {
         const evaluated: number = math.evaluate(ratio.replaceAll(/π/g, 'pi'));
         const cents = Math.log2(evaluated) * 1200;
         const id = Buffer.from(ratio, 'utf8').toString('base64url');
+
+        // console.log(name[0], 'was parsed');
 
         return {
           id,
@@ -157,6 +162,7 @@ const main = async () => {
   );
 
   // sorting
+  console.log('sorting...');
   commas.sort((a, b) => {
     const [resa, resb] = [a, b].map((data) => {
       switch (data.commaType) {
@@ -178,10 +184,23 @@ const main = async () => {
     lastUpdate: new Date().toISOString(),
     numberOf: commas.length,
   };
-
+  const dir = `./public/out`;
+  const path = './public/out/commas.json';
   const obj: Commas = { metadata, commas };
-  await mkdir('./public/out', { recursive: true });
-  await writeFile('./public/out/commas.json', JSON.stringify(obj));
+
+  await readFile(path).then(
+    async (old) => {
+      const path2 = './public/out/commas-old.json';
+      console.log(`writing commas-old.json...`);
+      await mkdir(dir, { recursive: true });
+      await writeFile(path2, old);
+    },
+    () => console.log('no previous commas.json')
+  );
+
+  await mkdir(dir, { recursive: true });
+  console.log(`writing commas.json...`);
+  await writeFile(path, JSON.stringify(obj, null, 2));
   console.log(commas.length, 'All tasks succeeded!');
 };
 
