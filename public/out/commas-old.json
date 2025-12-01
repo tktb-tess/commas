@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "lastUpdate": "2025-10-11T10:13:42.108Z",
-    "numberOf": 1014
+    "lastUpdate": "2025-11-01T15:14:22.942Z",
+    "numberOf": 1016
   },
   "commas": [
     {
@@ -3306,6 +3306,40 @@
         ]
       ],
       "namedBy": "Francium (2024)"
+    },
+    {
+      "id": "hYICAYIDI4ILIYINAoIYHQE",
+      "commaType": "rational",
+      "name": [
+        "Kakisma"
+      ],
+      "colorName": [
+        "",
+        ""
+      ],
+      "monzo": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          -4
+        ],
+        [
+          11,
+          -2
+        ],
+        [
+          13,
+          2
+        ],
+        [
+          29,
+          1
+        ]
+      ],
+      "namedBy": "Lériendil (2025)"
     },
     {
       "id": "hYICIoIDBIIFIYIHIYILAg",
@@ -11235,7 +11269,7 @@
       "id": "hIICLYIDD4IFIoIHIA",
       "commaType": "rational",
       "name": [
-        "Skeetsma"
+        "Scheme comma"
       ],
       "colorName": [
         "Lala-rutrigu",
@@ -25510,6 +25544,36 @@
       ]
     },
     {
+      "id": "hIILAYINIIITIIIXAQ",
+      "commaType": "rational",
+      "name": [
+        "Quaoarisma"
+      ],
+      "colorName": [
+        "Twethonuthulo",
+        "23o19u3u1o1"
+      ],
+      "monzo": [
+        [
+          11,
+          1
+        ],
+        [
+          13,
+          -1
+        ],
+        [
+          19,
+          -1
+        ],
+        [
+          23,
+          1
+        ]
+      ],
+      "namedBy": "Iniðil (2025)"
+    },
+    {
       "id": "g4ICIoIDCYIHIw",
       "commaType": "rational",
       "name": [
@@ -26770,7 +26834,7 @@
       "id": "g4INAYIRIYIXAQ",
       "commaType": "rational",
       "name": [
-        "Undecimisma"
+        "Arrokothisma"
       ],
       "colorName": [
         "Twethosusutho",
@@ -26790,7 +26854,7 @@
           1
         ]
       ],
-      "namedBy": "Inisil (2024)"
+      "namedBy": "Iniðil (2024)"
     },
     {
       "id": "goICODCCEQw",
@@ -26951,6 +27015,7 @@
       "id": "goICGG-CAzhF",
       "commaType": "rational",
       "name": [
+        "Jorgensen comma",
         "70-comma"
       ],
       "colorName": [
@@ -26966,7 +27031,8 @@
           3,
           -70
         ]
-      ]
+      ],
+      "namedBy": "Mike Battaglia (2012)^[2]"
     },
     {
       "id": "g4ICGJGCAzggggc4IA",
@@ -27134,7 +27200,7 @@
           -17
         ]
       ],
-      "namedBy": "Flora Canou (2023) for Pyth. gothma and gothic comma"
+      "namedBy": "Flora Canou (2023)"
     },
     {
       "id": "g4ICAYIFIYINAQ",
