@@ -1,11 +1,6 @@
 import { bailliePSW } from '@tktb-tess/util-fns';
 
-export const urls = [
-  'https://en.xen.wiki/w/Small_comma',
-  'https://en.xen.wiki/w/Medium_comma',
-  'https://en.xen.wiki/w/Large_comma',
-  'https://en.xen.wiki/w/Unnoticeable_comma',
-] as const;
+export const pattern = './resource/*.html';
 
 export const pList = Array(10000)
   .fill(0)
