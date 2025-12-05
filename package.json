@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "update-json": "tsx mod/index.ts",
+    "dry-run": "tsx mod/index.ts dry",
     "build": "astro build",
     "dev": "astro dev",
     "start": "astro preview",
