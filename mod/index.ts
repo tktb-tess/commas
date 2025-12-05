@@ -154,12 +154,7 @@ const fetchData = async (url: string) => {
 
 const main = async () => {
   const tasks = urls.map((url) => fetchData(url));
-  const commas = await Promise.allSettled(tasks).then((r) =>
-    r
-      .filter((r) => r.status === 'fulfilled')
-      .map((data) => data.value)
-      .flat()
-  );
+  const commas = await Promise.all(tasks).then((r) => r.flat());
 
   // sorting
   console.log('sorting...');

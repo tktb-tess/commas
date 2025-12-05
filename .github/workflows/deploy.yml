@@ -1,8 +1,8 @@
 name: Update, Build, and Deploy
 
 on:
-  schedule:
-   - cron: '0 15 1 * *' # 毎月2日午前0時 (日本時間)
+  # schedule:
+  #  - cron: '0 15 1 * *' # 毎月2日午前0時 (日本時間)
 
   workflow_dispatch:
 

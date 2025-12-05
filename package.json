@@ -11,19 +11,19 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.13",
-    "@tktb-tess/my-zod-schema": "^0.2.2",
-    "@tktb-tess/util-fns": "^0.7.0",
-    "@types/jsdom": "^21.1.7",
-    "@types/node": "^24.5.1",
-    "astro": "^5.13.8",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.17",
+    "@tktb-tess/my-zod-schema": "^0.3.0",
+    "@tktb-tess/util-fns": "^0.10.0",
+    "@types/jsdom": "^27.0.0",
+    "@types/node": "^24.10.1",
+    "astro": "^5.16.3",
     "cbor2": "^2.0.1",
-    "jsdom": "^27.0.0",
-    "mathjs": "^14.7.0",
-    "tailwindcss": "^4.1.13",
-    "tsx": "^4.20.5",
-    "typescript": "^5.9.2"
+    "jsdom": "^27.2.0",
+    "mathjs": "^15.1.0",
+    "tailwindcss": "^4.1.17",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   },
   "volta": {
     "node": "22.19.0"
