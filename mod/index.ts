@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import type { CommaData, CommaMetadata, Commas } from './types';
-import { urls, pList } from './data';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { pList, pattern } from './data';
+import { glob, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { create, all } from 'mathjs';
 import { encode } from 'cbor2';
 
@@ -9,14 +9,11 @@ const math = create(all, {
   number: 'number',
 });
 
-const fetchData = async (url: string) => {
-  const resp = await fetch(url, { method: 'GET' });
-  if (!resp.ok) {
-    const { headers, status, statusText } = resp;
-    const h = [...headers].map(([k, v]) => `${k}: ${v}`).join('\n');
-    throw Error(`failed to fetch:\n${status} ${statusText}\n${h}`);
-  }
-  const domStr = await resp.text();
+const fetchData = async (path: string) => {
+  const domStr = await readFile(path, {
+    encoding: 'utf-8',
+  });
+
   const html = new JSDOM(domStr);
   const document = html.window.document;
   const allData: CommaData[] = [];
@@ -149,13 +146,15 @@ const fetchData = async (url: string) => {
     await Promise.all(tableData).then((data) => allData.push(...data));
   }
 
-  console.log('success:', allData.length, 'commas from', url);
+  console.log('success:', allData.length, 'commas from', path);
 
   return allData;
 };
 
 const main = async () => {
-  const tasks = urls.map((url) => fetchData(url));
+  const gl = glob(pattern);
+  const paths = await Array.fromAsync(gl);
+  const tasks = paths.map(fetchData);
   const commas = await Promise.all(tasks).then((r) => r.flat());
 
   // sorting
