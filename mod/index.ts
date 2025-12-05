@@ -12,7 +12,9 @@ const math = create(all, {
 const fetchData = async (url: string) => {
   const resp = await fetch(url, { method: 'GET' });
   if (!resp.ok) {
-    throw Error(`failed to fetch:\n${resp.status} ${resp.statusText}`);
+    const { headers, status, statusText } = resp;
+    const h = [...headers].map(([k, v]) => `${k}: ${v}`).join('\n');
+    throw Error(`failed to fetch:\n${status} ${statusText}\n${h}`);
   }
   const domStr = await resp.text();
   const html = new JSDOM(domStr);
