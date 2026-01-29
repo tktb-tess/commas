@@ -122,7 +122,7 @@ export const fetchData = async (path: string) => {
         const ratio = row[3];
         const evaluated: number = math.evaluate(ratio.replaceAll(/π/g, 'pi'));
         const cents = Math.log2(evaluated) * 1200;
-        const id = Buffer.from(ratio, 'utf8').toString('base64url');
+        const id = Buffer.from(ratio, 'utf-8').toString('base64url');
 
         // console.log(name[0], 'was parsed');
 

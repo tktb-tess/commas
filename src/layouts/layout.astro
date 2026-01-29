@@ -1,5 +1,6 @@
 ---
 import '../styles/main.css';
+import Loads from '../components/Loads.astro';
 interface Props {
   frontmatter: {
     readonly title: string;
@@ -14,11 +15,9 @@ const { frontmatter } = Astro.props;
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width,initial-scale=1' />
     <meta name='generator' content={Astro.generator} />
+    <meta name='color-scheme' content='light dark' />
     <link href='/favicon.ico' type='icon' />
-    <link
-      rel='stylesheet'
-      href='https://api.tktb-tess.dev/fonts/Inter/font-face.css'
-    />
+    <Loads />
     <title>{frontmatter.title}</title>
   </head>
   <body>
