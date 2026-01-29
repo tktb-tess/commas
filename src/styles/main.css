@@ -96,6 +96,10 @@
     @apply text-4xl font-extralight text-balance my-10 text-center;
   }
 
+  header {
+    @apply flow-root;
+  }
+
   :is(h2, h3, h4) {
     @apply font-normal ctext-heading mt-(--s-heading);
   }
