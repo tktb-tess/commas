@@ -1,8 +1,182 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/typography';
 
 @theme {
-  --font-sans: 'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
-    'Source Han Sans', 'Yu Gothic UI', 'Hiragino Kaku Gothic ProN',
-    'Hiragino Sans', sans-serif;
+  --font-sans:
+    'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
+    'Noto Sans CJK JP', 'Source Han Sans', 'BIZ UDPGothic',
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    'Noto Sans Canadian Aboriginal', sans-serif, system-ui;
+  --font-serif:
+    'Charis-Web', 'Times New Roman', 'Noto Serif JP', 'Noto Serif CJK JP',
+    'Source Han Serif', 'BIZ UDPMincho', 'Hiragino Mincho ProN',
+    'Hiragino Serif', serif, system-ui;
+  --font-ipa: var(--font-serif);
+
+  --color-violet-dark: oklch(from var(--color-violet-950) 20% 0.06 h);
+  --color-side: var(--color-violet-50);
+  --color-d-side: var(--color-violet-950);
+  --color-main: #fff;
+  --color-d-main: var(--color-violet-dark);
+  --color-text: #000;
+  --color-d-text: #fff;
+  --color-border: var(--color-slate-400);
+  --color-d-border: var(--color-slate-500);
+  --color-border-2: var(--color-slate-500);
+  --color-d-border-2: var(--color-slate-400);
+  --color-link: var(--color-blue-700);
+  --color-d-link: var(--color-blue-400);
+  --color-heading: var(--color-violet-950);
+  --color-d-heading: var(--color-violet-100);
+
+  --default-transition-duration: 110ms;
+  --s-paragraph: 0.75rem;
+  --s-heading: 2.5rem;
+}
+
+@utility cbg-* {
+  background-color: --value(--color-*);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: --value(--color-d- *);
+  }
+}
+
+@utility gbg-* {
+  background-image: --value(--grad-*);
+
+  @media (prefers-color-scheme: dark) {
+    background-image: --value(--grad-d- *);
+  }
+}
+
+@utility cborder-* {
+  border-color: --value(--color-*);
+
+  @media (prefers-color-scheme: dark) {
+    border-color: --value(--color-d- *);
+  }
+}
+
+@utility ctext-* {
+  color: --value(--color-*);
+
+  @media (prefers-color-scheme: dark) {
+    color: --value(--color-d- *);
+  }
+}
+
+@layer base {
+  * {
+    @apply wrap-anywhere hyphens-auto;
+    line-break: strict;
+  }
+
+  html {
+    -webkit-tap-highlight-color: revert;
+    @apply max-sm:text-sm;
+  }
+
+  body {
+    @apply flow-root cbg-side ctext-text;
+  }
+
+  main {
+    @apply flow-root w-full max-w-7xl px-4 mx-auto cbg-main min-h-lvh;
+
+    > :where(:first-child) {
+      @apply mt-3;
+    }
+
+    > :where(:last-child) {
+      @apply mb-3;
+    }
+  }
+
+  h1#title {
+    @apply text-4xl font-extralight text-balance my-10 text-center;
+  }
+
+  :is(h2, h3, h4) {
+    @apply font-normal ctext-heading mt-(--s-heading);
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  :is(h5, h6) {
+    @apply font-semibold text-base;
+  }
+
+  :is(h5, h6, p, ul, ol, pre) {
+    @apply mt-(--s-paragraph);
+  }
+
+  :is(ul, ol) {
+    @apply ps-7;
+  }
+
+  li > :is(ul, ol) {
+    @apply ps-4;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li > :where(p, ul, ol) {
+    @apply mt-0;
+  }
+
+  a {
+    @apply ctext-link hover:underline;
+  }
+
+  table {
+    @apply w-max max-w-full me-auto;
+
+    :where(& > thead > tr:last-child) {
+      @apply border-b cborder-border-2;
+    }
+
+    :where(& > :is(thead, tbody, tfoot) > tr:not(:last-child)) {
+      @apply border-b cborder-border;
+    }
+
+    :where(td, th) {
+      @apply text-base py-1.25 px-2.5 text-center;
+    }
+
+    :where(th) {
+      @apply font-semibold;
+    }
+  }
+
+  .table-container:has(> table) {
+    @apply overflow-auto max-w-full my-(--s-heading);
+  }
+
+  hr {
+    @apply my-5 mx-auto w-full max-w-160 cborder-border-2;
+  }
+
+  .astro-code {
+    @apply px-3 py-2 rounded my-(--s-heading);
+  }
+
+  :is(strong, b) {
+    @apply font-semibold;
+  }
 }

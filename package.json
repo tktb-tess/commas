@@ -8,25 +8,28 @@
     "dry-run": "tsx mod/index.ts dry",
     "build": "astro build",
     "dev": "astro dev",
-    "start": "astro preview",
+    "preview": "astro preview",
+    "build-preview": "astro build && astro preview",
     "astro": "astro"
   },
-  "dependencies": {
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.1.17",
-    "@tktb-tess/my-zod-schema": "^0.3.0",
-    "@tktb-tess/util-fns": "^0.10.0",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "@tktb-tess/my-zod-schema": "^0.4.1",
+    "@tktb-tess/util-fns": "^0.11.3",
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^24.10.1",
-    "astro": "^5.16.3",
-    "cbor2": "^2.0.1",
-    "jsdom": "^27.2.0",
+    "@types/node": "^25.0.10",
+    "astro": "^5.16.15",
+    "cbor2": "^2.2.1",
+    "jsdom": "^27.4.0",
     "mathjs": "^15.1.0",
-    "tailwindcss": "^4.1.17",
+    "remark-toc": "^9.0.0",
+    "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
+  "packageManager": "pnpm@10.28.2",
   "volta": {
-    "node": "22.19.0"
+    "node": "24.13.0",
+    "pnpm": "10.28.2"
   }
 }
