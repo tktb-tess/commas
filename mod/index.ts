@@ -1,6 +1,6 @@
-import type { CommaMetadata, Commas } from './types';
+import type { Metadata, CommaData } from './types';
 import { glob, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { fetchData } from './funcs';
+import { fetchData, sortComma } from './funcs.ts';
 
 const main = async () => {
   const mode = process.argv.at(2);
@@ -17,29 +17,20 @@ const main = async () => {
   // sorting
   console.log('sorting...');
   commas.sort((a, b) => {
-    const [resa, resb] = [a, b].map((data) => {
-      switch (data.commaType) {
-        case 'irrational': {
-          return data.cents;
-        }
-        case 'rational': {
-          return data.monzo
-            .map(([b, v]) => 1200 * Math.log2(b) * v)
-            .reduce((prev, cur) => prev + cur, 0);
-        }
-      }
-    });
+    const resa = sortComma(a);
+    const resb = sortComma(b);
 
     return resa - resb;
   });
 
-  const metadata: CommaMetadata = {
+  const metadata: Metadata = {
     lastUpdate: new Date().toISOString(),
     numberOf: commas.length,
   };
+
   const dir = `./public/out`;
   const path = './public/out/commas.json';
-  const obj: Commas = { metadata, commas };
+  const obj: CommaData = { metadata, commas };
 
   if (mode === 'dry') {
     console.log('dry run\n', commas.map(({ name }) => name[0]).join(', '));
@@ -52,7 +43,7 @@ const main = async () => {
         await mkdir(dir, { recursive: true });
         await writeFile(path2, old);
       },
-      () => console.log('no previous commas.json')
+      () => console.log('no previous commas.json'),
     );
 
     await mkdir(dir, { recursive: true });

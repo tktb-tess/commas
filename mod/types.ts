@@ -1,29 +1,31 @@
 type Monzo = readonly (readonly [number, number])[];
 
-type CommaType =
-  | {
-      readonly commaType: 'rational';
-      readonly monzo: Monzo;
-    }
-  | {
-      readonly commaType: 'irrational';
-      readonly ratio: string;
-      readonly cents: number;
-    };
-
-export type CommaData = CommaType & {
+interface BaseData {
   readonly id: string;
   readonly name: string[];
   readonly colorName: readonly [string, string];
   readonly namedBy?: string;
-};
+}
 
-export type CommaMetadata = {
+interface RationalComma extends BaseData {
+  readonly commaType: 'rational';
+  readonly monzo: Monzo;
+}
+
+interface IrrationalComma extends BaseData {
+  readonly commaType: 'irrational';
+  readonly ratio: string;
+  readonly cents: number;
+}
+
+export type Content = RationalComma | IrrationalComma;
+
+export interface Metadata {
   readonly lastUpdate: string;
   readonly numberOf: number;
-};
+}
 
-export type Commas = {
-  readonly metadata: CommaMetadata;
-  readonly commas: CommaData[];
-};
+export interface CommaData {
+  readonly metadata: Metadata;
+  readonly commas: Content[];
+}
