@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "update-json": "tsx mod/index.ts",
-    "dry-run": "tsx mod/index.ts dry",
+    "update-json": "node mod/index.ts",
+    "dry-run": "node mod/index.ts dry",
     "build": "astro build",
     "dev": "astro dev",
     "preview": "astro preview",
@@ -13,23 +13,21 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.18",
+    "@tailwindcss/vite": "^4.2.1",
     "@tktb-tess/my-zod-schema": "^0.4.1",
     "@tktb-tess/util-fns": "^0.11.3",
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^25.0.10",
-    "astro": "^5.16.15",
-    "cbor2": "^2.2.1",
+    "@types/node": "^25.4.0",
+    "astro": "^5.18.1",
+    "cbor2": "^2.3.0",
     "jsdom": "^27.4.0",
-    "mathjs": "^15.1.0",
+    "mathjs": "^15.1.1",
     "remark-toc": "^9.0.0",
-    "tailwindcss": "^4.1.18",
-    "tsx": "^4.21.0",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.28.2",
+  "packageManager": "pnpm@10.30.2",
   "volta": {
-    "node": "24.13.0",
-    "pnpm": "10.28.2"
+    "node": "24.13.0"
   }
 }

@@ -18,40 +18,45 @@ title: Commas
 ## 型
 
 ```ts
-type Monzo = Array<readonly [number, number]>; // モンゾ, [底の整数, 指数] のペアの配列
+// モンゾ, [底の整数, 指数] のペアの配列
+type Monzo = [number, number][];
 
-type CommaMetadata = {
+interface BaseData {
+  id: string; // 一意なID
+  name: string[]; // コンマ名
+  colorName: [string, string]; // コンマのColor name, [発音表記, 記号表記]
+  namedBy?: string; // 命名者 (あれば)
+}
+
+// 有理数コンマ
+interface RationalComma extends BaseData {
+  commaType: 'rational';
+  monzo: Monzo;
+}
+
+// 無理数コンマ
+interface IrrationalComma extends BaseData {
+  commaType: 'irrational';
+  ratio: string; // 比率
+  cents: number; // セント値
+}
+
+type Content = RationalComma | IrrationalComma;
+
+interface Metadata {
   lastUpdate: string; // 最終アップデート日時 (UTC, ISO 8601 形式)
   numberOf: number; // コンマの総数
 };
 
-type CommaType =
-  | {
-      commaType: 'rational'; // 有理数コンマ
-      monzo: Monzo;
-    }
-  | {
-      commaType: 'irrational'; // 無理数コンマ
-      ratio: string; // 比率
-      cents: number; // セント値
-    };
-
-type CommaContent = CommaType & {
-  id: string;
-  name: string; // コンマ名
-  colorName: [string, string]; // コンマのColor name, [発音表記, 記号表記]
-  namedBy?: string; // 命名者 (あれば)
-};
-
-type CommaData = {
-  metadata: CommaMetadata;
-  commas: CommaContent[];
+interface CommaData {
+  metadata: Metadata;
+  commas: Content[];
 };
 ```
 
 ### example
 
-#### CommaMetadata
+#### Metadata
 
 ```json
 {
@@ -60,13 +65,17 @@ type CommaData = {
 }
 ```
 
-#### CommaContent
+#### Content
 
 ```json
 {
-  "id": "MjotNCwzOjQsNTotMQ",
+  "id": "g4ICI4IDBIIFIA",
   "commaType": "rational",
-  "name": ["Syntonic comma", "Didymus comma", "meantone comma"],
+  "name": [
+    "Syntonic comma",
+    "Didymus comma",
+    "meantone comma"
+  ],
   "colorName": ["Gu", "g1"],
   "monzo": [
     [2, -4],
