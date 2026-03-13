@@ -137,7 +137,9 @@
     grid-area: f;
   }
 
-  :is(h2, h3, h4) {
+  h2,
+  h3,
+  h4 {
     @apply font-normal ctext-heading mt-heading;
   }
 
@@ -153,20 +155,24 @@
     @apply text-xl;
   }
 
-  :is(h5, h6) {
+  h5,
+  h6 {
     @apply font-semibold text-base;
   }
 
-  :is(h5, h6, p, ul, ol, pre) {
+  h5,
+  h6,
+  :not(li) > :where(p, ul, ol),
+  pre {
     @apply mt-paragraph;
   }
 
-  :is(ul, ol) {
-    @apply ps-7;
+  :not(li) > :where(ul, ol) {
+    @apply ms-7;
   }
 
-  li > :is(ul, ol) {
-    @apply ps-4;
+  li > :where(ul, ol) {
+    @apply ms-4;
   }
 
   ul {
