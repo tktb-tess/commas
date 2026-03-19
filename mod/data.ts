@@ -1,7 +1,9 @@
 import { bailliePSW } from '@tktb-tess/util-fns';
 import { create, all } from 'mathjs';
 
-if (all == null) throw Error('!');
+if (all == null) {
+  throw Error('!');
+}
 
 export const math = create(all, {
   number: 'number',

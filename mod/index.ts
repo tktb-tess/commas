@@ -19,7 +19,6 @@ const main = async () => {
   commas.sort((a, b) => {
     const resa = sortComma(a);
     const resb = sortComma(b);
-
     return resa - resb;
   });
 
@@ -36,7 +35,7 @@ const main = async () => {
     console.log('dry run\n', commas.map(({ name }) => name[0]).join(', '));
     console.log(commas.length, 'All tasks succeeded!');
   } else {
-    await readFile(path).then(
+    await readFile(path, { encoding: 'utf-8' }).then(
       async (old) => {
         const path2 = './public/out/commas-old.json';
         console.log(`writing commas-old.json...`);
