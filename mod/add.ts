@@ -154,32 +154,22 @@ const addComma = async () => {
 
   const obj: CommaData = { metadata, commas: removed };
 
-  console.log(obj.metadata);
-  console.log(
-    obj.commas
-      .map((c) => {
-        const s = c.commaType === 'rational' ? getCents(c.monzo) : c.cents;
-        return `${s} ${c.name[0]}`;
-      })
-      .join('\n'),
-  );
-
   const dir = `./public/out`;
   const path = './public/out/commas.json';
   const pathOld = './public/out/commas-old.json';
 
-  // await mkdir(dir, { recursive: true });
-  // await readFile(path, { encoding: 'utf-8' }).then(
-  //   async (old) => {
-  //     console.log(`writing commas-old.json...`);
-  //     await writeFile(pathOld, old);
-  //   },
-  //   () => console.log('no previous commas.json, skipped'),
-  // );
-  //
-  // console.log(`writing commas.json...`);
-  // await writeFile(path, JSON.stringify(obj, null, 2));
-  // console.log(removed.length, 'All tasks succeeded!');
+  await mkdir(dir, { recursive: true });
+  await readFile(path, { encoding: 'utf-8' }).then(
+    async (old) => {
+      console.log(`writing commas-old.json...`);
+      await writeFile(pathOld, old);
+    },
+    () => console.log('no previous commas.json, skipped'),
+  );
+
+  console.log(`writing commas.json...`);
+  await writeFile(path, JSON.stringify(obj, null, 2));
+  console.log(removed.length, 'All tasks succeeded!');
 };
 
 addComma();
