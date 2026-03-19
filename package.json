@@ -17,7 +17,7 @@
     "@tktb-tess/my-zod-schema": "^0.4.1",
     "@tktb-tess/util-fns": "^0.11.3",
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^25.4.0",
+    "@types/node": "^25.5.0",
     "astro": "^5.18.1",
     "cbor2": "^2.3.0",
     "jsdom": "^27.4.0",
