@@ -97,9 +97,11 @@
   }
 
   @supports (word-break: auto-phrase) {
-    [lang^='ja'] {
-      word-break: auto-phrase;
-      text-align: justify;
+    @media (width >= 40rem) {
+      [lang^='ja'] {
+        word-break: auto-phrase;
+        text-align: justify;
+      }
     }
   }
 
