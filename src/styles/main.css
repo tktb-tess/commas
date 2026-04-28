@@ -125,7 +125,7 @@
   }
 
   h1 {
-    @apply text-4xl font-extralight text-balance my-10 text-center;
+    @apply max-lg:text-4xl lg:text-5xl font-extralight text-balance my-10 text-center;
   }
 
   header {
@@ -212,7 +212,7 @@
   }
 
   .astro-code {
-    @apply px-3 py-2 rounded my-figure;
+    @apply p-4 rounded my-figure;
   }
 
   strong,
