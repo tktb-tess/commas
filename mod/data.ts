@@ -1,4 +1,4 @@
-import { bailliePSW } from '@tktb-tess/util-fns';
+import { bailliePSW } from '@tktb-tess/util-fns/baillie_psw';
 import { create, all } from 'mathjs';
 
 if (all == null) {

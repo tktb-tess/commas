@@ -25,16 +25,16 @@
 
   --default-transition-duration: 110ms;
 
-  /* case-alt, alt-1, l-with-tail, I-with-serif, G-with-spur, alt-eszet, round-quotes-commas */
+  /* contextual-alt, alt-1, l-with-tail, I-with-serif, G-with-spur, alt-eszet, round-quotes-commas */
   --default-font-feature-settings:
-    'case', 'cv01', 'cv05', 'cv08', 'cv10', 'cv07', 'ss03';
+    'calt', 'cv01', 'cv05', 'cv08', 'cv10', 'cv07', 'ss03';
 
   --s-paragraph: 0.75rem;
   --s-heading: 2.5rem;
   --spacing-paragraph: 0.75rem;
   --spacing-heading: 2.5rem;
   --spacing-figure: 2rem;
-  --spacing-min-side: 16rem;
+  --spacing-min-side: 14rem;
   --spacing-max-main: 72rem;
 }
 
@@ -87,18 +87,19 @@
     @apply max-sm:text-sm wrap-anywhere hyphens-auto font-sans;
     line-break: strict;
     -webkit-tap-highlight-color: revert;
-    word-break: normal;
     scrollbar-gutter: stable;
     text-spacing-trim: trim-start;
+    text-autospace: normal;
+  }
+
+  [lang] {
+    word-break: normal;
   }
 
   @supports (word-break: auto-phrase) {
-    :not(:lang(ja)) {
-      word-break: normal;
-    }
-
-    :lang(ja) {
+    [lang^='ja'] {
       word-break: auto-phrase;
+      text-align: justify;
     }
   }
 

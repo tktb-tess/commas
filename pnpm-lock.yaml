@@ -17,9 +17,6 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.2.4
         version: 4.2.4(vite@7.3.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0))
-      '@tktb-tess/my-zod-schema':
-        specifier: ^0.5.0
-        version: 0.5.0(zod@4.3.6)
       '@tktb-tess/util-fns':
         specifier: ^0.13.0
         version: 0.13.0
@@ -764,12 +761,6 @@ packages:
     resolution: {integrity: sha512-pCvohwOCspk3ZFn6eJzrrX3g4n2JY73H6MmYC87XfGPyTty4YsCjYTMArRZm/zOI8dIt3+EcrLHAFPe5A4bgtw==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
-
-  '@tktb-tess/my-zod-schema@0.5.0':
-    resolution: {integrity: sha512-igUghPuhxXId5liAKBliRJzIIt9ibkemCsvluEoVWbum55omveCX6CVnBQsiCYdhwlhJk8MdCdSjcv41ENFELw==}
-    engines: {node: '>=22.0.0', pnpm: '>=10.0.0'}
-    peerDependencies:
-      zod: ^3.0.0 || ^4.0.0
 
   '@tktb-tess/util-fns@0.13.0':
     resolution: {integrity: sha512-l2GdKTP6K3n4gV9Eox4izSeIUddaagwiu8QlEiPsuw5FrdoIUOgEf3z1Kd6wA19GcWzt1ehdbyDUkvwWD3gbRA==}
@@ -2444,10 +2435,6 @@ snapshots:
       '@tailwindcss/oxide': 4.2.4
       tailwindcss: 4.2.4
       vite: 7.3.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)
-
-  '@tktb-tess/my-zod-schema@0.5.0(zod@4.3.6)':
-    dependencies:
-      zod: 4.3.6
 
   '@tktb-tess/util-fns@0.13.0': {}
 

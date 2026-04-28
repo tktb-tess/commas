@@ -1,4 +1,4 @@
-import type { Metadata, CommaData } from './types';
+import type { Metadata, CommaData } from './types.ts';
 import { glob, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fetchData, sortComma } from './funcs.ts';
 
