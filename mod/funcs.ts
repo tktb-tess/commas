@@ -143,15 +143,13 @@ const formatCommaData = async (
     } else {
       const ratio = row[3] ?? '';
       const evaluated: unknown = math.evaluate(ratio.replaceAll(/π/g, 'pi'));
+
       if (typeof evaluated !== 'number') {
-        throw Error('failed to evaluate expression', {
-          cause: JSON.stringify(row),
-        });
+        throw Error('failed to evaluate expression');
       }
+
       const cents = Math.log2(evaluated) * 1200;
       const id = Buffer.from(ratio, 'utf-8').toString('base64url');
-
-      // console.log(name[0], 'was parsed');
 
       return {
         id,

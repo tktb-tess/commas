@@ -52,4 +52,15 @@ const main = async () => {
   }
 };
 
-main();
+const main2 = async () => {
+  const json = await readFile('./public/out/commas.json', {
+    encoding: 'utf-8',
+  });
+  const { commas } = JSON.parse(json) as CommaData;
+
+  commas.map((c) => {
+    c.id
+  });
+};
+
+main2();
