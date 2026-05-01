@@ -204,3 +204,13 @@ export const sortComma = (data: Content) => {
     }
   }
 };
+
+export const getHash = async (
+  o: unknown,
+  algorithm: AlgorithmIdentifier,
+  encoding: 'base64' | 'base64url' | 'hex',
+) => {
+  const utf8 = new TextEncoder().encode(JSON.stringify(o));
+  const hash = await crypto.subtle.digest(algorithm, utf8);
+  return Buffer.from(hash).toString(encoding);
+};

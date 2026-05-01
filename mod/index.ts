@@ -59,7 +59,8 @@ const main2 = async () => {
   const { commas } = JSON.parse(json) as CommaData;
 
   commas.map((c) => {
-    c.id
+    const { id, ...rest } = c;
+
   });
 };
 
