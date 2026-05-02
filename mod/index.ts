@@ -1,6 +1,6 @@
-import type { Metadata, CommaData } from './types.ts';
+import type { Metadata, CommaData, Content } from './types.ts';
 import { glob, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { fetchData, sortComma } from './funcs.ts';
+import { fetchData, sortComma, getHash } from './funcs.ts';
 
 const main = async () => {
   const mode = process.argv.at(2);
@@ -56,12 +56,35 @@ const main2 = async () => {
   const json = await readFile('./public/out/commas.json', {
     encoding: 'utf-8',
   });
+
   const { commas } = JSON.parse(json) as CommaData;
 
-  commas.map((c) => {
-    const { id, ...rest } = c;
-
+  const p = commas.map(async (c) => {
+    if (c.commaType === 'rational') {
+      const { monzo, id: _, ...rest } = c;
+      const mnz = monzo.map(([b, v]) => `${b}:${v}`).join(',');
+      const id = await getHash(c, 'SHA-1', 'base64url');
+      return { id, monzo: mnz, ...rest };
+    } else {
+      const { id: _, ...rest } = c;
+      const id = await getHash(c, 'SHA-1', 'base64url');
+      return { id, ...rest };
+    }
   });
+  
+  const commas2 = await Promise.all(p);
+
+  const metadata: Metadata = {
+    lastUpdate: new Date().toISOString(),
+    numberOf: commas2.length,
+  };
+
+  const dir = `./public/out`;
+  const path = './public/out/commas-neue.json';
+  const obj = { metadata, commas: commas2 };
+
+  await mkdir(dir, { recursive: true });
+  await writeFile(path, JSON.stringify(obj, null, 2));
 };
 
 main2();
