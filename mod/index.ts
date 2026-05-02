@@ -90,4 +90,4 @@ const main2 = async () => {
   await writeFile(path, JSON.stringify(obj, null, 2));
 };
 
-main2();
+// main2();
