@@ -1,7 +1,8 @@
-import type { Metadata, CommaData, Content } from './types.ts';
-import { glob, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { fetchData, sortComma, getHash } from './funcs.ts';
+import type { Metadata, CommaData } from './types.ts';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { getHash } from './funcs.ts';
 
+/*
 const main = async () => {
   const mode = process.argv.at(2);
 
@@ -52,6 +53,8 @@ const main = async () => {
   }
 };
 
+*/
+
 const main2 = async () => {
   const json = await readFile('./public/out/commas.json', {
     encoding: 'utf-8',
@@ -71,7 +74,7 @@ const main2 = async () => {
       return { id, ...rest };
     }
   });
-  
+
   const commas2 = await Promise.all(p);
 
   const metadata: Metadata = {

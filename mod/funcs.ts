@@ -1,9 +1,4 @@
-import { JSDOM } from 'jsdom';
-import { pList, math } from './data.ts';
-import { encode } from 'cbor2';
-import { readFile } from 'node:fs/promises';
-import type { Content } from './types.ts';
-
+/*
 const tableTo2DArray = (table: HTMLTableElement) => {
   const third = table.querySelectorAll('th').item(2);
   const thirdStr = third.textContent.replaceAll(/\n/g, '').trim();
@@ -204,6 +199,7 @@ export const sortComma = (data: Content) => {
     }
   }
 };
+*/
 
 export const getHash = async (
   o: unknown,
