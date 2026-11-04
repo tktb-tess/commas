@@ -1,72 +1,122 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'noto-sans-jp';
+  font-display: swap;
+  src: local('Noto Sans JP'), local('Noto Sans CJK JP');
+}
+
+@font-face {
+  font-family: 'noto-for-title';
+  font-display: swap;
+  src: local('Noto Sans JP');
+}
+
 @theme {
   --font-sans:
-    'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
-    'Noto Sans CJK JP', 'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN',
-    'Hiragino Sans', 'Noto Sans Canadian Aboriginal', sans-serif, 'Segoe UI';
+    'Inter-Variable', 'Arial', 'Helvetica Neue', 'noto-sans-jp',
+    'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    'Noto Sans Canadian Aboriginal', 'Noto Sans Runic', sans-serif, 'Segoe UI';
+  --font-title:
+    'Inter-Variable', 'Arial', 'Helvetica Neue', 'noto-for-title',
+    'Noto Sans JP', sans-serif, 'Segoe UI';
   --font-serif:
     'Charis-Web', 'Times New Roman', 'Noto Serif JP', 'Noto Serif CJK JP',
     'BIZ UDPMincho', 'Hiragino Mincho ProN', 'Hiragino Serif', serif, 'Segoe UI';
   --font-ipa: var(--font-serif);
 
-  --color-side: var(--color-violet-100);
-  --color-d-side: var(--color-violet-950);
-  --color-main: Canvas;
-  --color-text: CanvasText;
-  --color-border: var(--color-slate-400);
-  --color-d-border: var(--color-slate-500);
-  --color-border-2: var(--color-slate-500);
-  --color-d-border-2: var(--color-slate-400);
-  --color-link: var(--color-blue-700);
-  --color-d-link: var(--color-blue-400);
-  --color-heading: var(--color-violet-950);
-  --color-d-heading: var(--color-violet-100);
+  --color-vivid-5: oklch(5% 0.0352 263.14);
+  --color-vivid-10: oklch(10% 0.0689 264.19);
+  --color-vivid-15: oklch(15% 0.1037 264.19);
+  --color-vivid-20: oklch(20% 0.1379 264.19);
+  --color-vivid-25: oklch(25% 0.1716 264.72);
+  --color-vivid-30: oklch(30% 0.2069 264.35);
+  --color-vivid-35: oklch(35% 0.2405 264.72);
+  --color-vivid-40: oklch(40% 0.2753 264.72);
+  --color-vivid-45: oklch(45% 0.3095 264.72);
+  --color-vivid-50: oklch(50% 0.2927 284.47);
+  --color-vivid-55: oklch(55% 0.2937 299.29);
+  --color-vivid-60: oklch(60% 0.3013 311.14);
+  --color-vivid-65: oklch(65% 0.3106 320.73);
+  --color-vivid-70: oklch(70% 0.3214 328.5);
+  --color-vivid-75: oklch(75% 0.2546 142.5);
+  --color-vivid-80: oklch(80% 0.2688 141.97);
+  --color-vivid-85: oklch(85% 0.2856 141.97);
+  --color-vivid-90: oklch(90% 0.2536 133.2);
+  --color-vivid-95: oklch(95% 0.2172 116.2);
 
-  --default-transition-duration: 110ms;
+  --color-violet-dark: oklch(from var(--color-violet-950) 20% 0.06 h);
+
+  --color-side: light-dark(var(--color-violet-100), var(--color-violet-950));
+  --color-main: canvas;
+  --color-text: canvasText;
+  --color-textpale: oklab(from canvasText l a b / 60%);
+  --color-textinv: canvas;
+  --color-accent: light-dark(var(--color-violet-950), var(--color-violet-100));
+  --color-accent-lighter: color-mix(in oklab, var(--color-accent) 60%, Canvas);
+  --color-quote-bg: light-dark(hsl(200 100 70 / 8%), hsl(200 100 70 / 15%));
+  --color-border: light-dark(hsl(0 0 0 / 25%), hsl(0 0 100 / 25%));
+  --color-border-2: light-dark(hsl(0 0 0 / 40%), hsl(0 0 100 / 40%));
+  --color-link: light-dark(var(--color-blue-700), #10ff10);
+  --color-link-disabled: light-dark(hsl(0 0 0 / 60%), hsl(0 0 100 / 40%));
+  --color-caution: light-dark(var(--color-red-600), var(--color-yellow-300));
+  --color-code-bg: light-dark(hsl(210 10 90), hsl(210 10 20));
+  --default-transition-duration: 80ms;
+  --default-transition-timing-function: cubic-bezier(0.25, 0, 0.1, 1);
 
   /* contextual-alt, alt-1, l-with-tail, I-with-serif, G-with-spur, alt-eszet, round-quotes-commas */
   --default-font-feature-settings:
     'calt', 'cv01', 'cv05', 'cv08', 'cv10', 'cv07', 'ss03';
 
-  --s-paragraph: 0.75rem;
-  --s-heading: 2.5rem;
+  --features-tnum:
+    var(--default-font-feature-settings), 'tnum'; /* tabular-figures */
+
   --spacing-paragraph: 0.75rem;
-  --spacing-heading: 2.5rem;
-  --spacing-figure: 2rem;
+  --spacing-heading: 2.75rem;
+  --spacing-figure: 2.25rem;
+  --spacing-title-mb: 3rem;
   --spacing-min-side: 14rem;
   --spacing-max-main: 72rem;
 }
 
-@utility cbg-* {
-  background-color: --value(--color-*);
-
-  @media (prefers-color-scheme: dark) {
-    background-color: --value(--color-d- *);
-  }
+@utility font-features-* {
+  font-feature-settings: --value(--features-*);
 }
 
-@utility gbg-* {
-  background-image: --value(--grad-*);
-
-  @media (prefers-color-scheme: dark) {
-    background-image: --value(--grad-d- *);
-  }
+@utility grid-cols-auto-* {
+  grid-template-columns: repeat(--value(integer), auto);
 }
 
-@utility cborder-* {
-  border-color: --value(--color-*);
+@utility cols-auto-fill-* {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(calc(var(--spacing) * --value(integer)), 100%), 1fr)
+  );
 
-  @media (prefers-color-scheme: dark) {
-    border-color: --value(--color-d- *);
-  }
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(--value([*]), 100%), 1fr)
+  );
 }
 
-@utility ctext-* {
-  color: --value(--color-*);
+@utility cols-auto-fit-* {
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(calc(var(--spacing) * --value(integer)), 100%), 1fr)
+  );
 
-  @media (prefers-color-scheme: dark) {
-    color: --value(--color-d- *);
+  grid-template-columns: repeat(auto-fit, minmax(min(--value([*]), 100%), 1fr));
+}
+
+@utility allow-discrete {
+  transition-behavior: allow-discrete;
+}
+
+@custom-variant any-hover {
+  @media (any-hover: hover) {
+    &:hover {
+      @slot;
+    }
   }
 }
 
@@ -84,9 +134,10 @@
 
 @layer base {
   :root {
-    @apply max-sm:text-sm wrap-anywhere hyphens-auto font-sans;
-    line-break: strict;
+    @apply max-sm:text-sm wrap-anywhere hyphens-auto font-sans scheme-light-dark;
     -webkit-tap-highlight-color: revert;
+    font-optical-sizing: auto;
+    line-break: strict;
     scrollbar-gutter: stable;
     text-spacing-trim: trim-start;
     text-autospace: normal;
@@ -105,49 +156,18 @@
     }
   }
 
-  body {
-    @apply max-lg:flow-root lg:grid cbg-side text-text;
-
-    grid-template-areas:
-      'h h h'
-      '. m .'
-      'f f f';
-
-    grid-template-columns:
-      minmax(min(var(--spacing-min-side), 50%), 1fr)
-      minmax(0, var(--spacing-max-main))
-      minmax(min(var(--spacing-min-side), 50%), 1fr);
-
-    grid-template-rows: auto 1fr auto;
-  }
-
-  main {
-    @apply flow-root px-4 pb-36 bg-main min-h-lvh;
-    grid-area: m;
-  }
-
-  h1 {
-    @apply max-lg:text-4xl lg:text-5xl font-extralight text-balance my-10 text-center;
-  }
-
-  header {
-    @apply flow-root;
-    grid-area: h;
-  }
-
-  footer {
-    @apply flow-root;
-    grid-area: f;
+  :where(:disabled, [aria-disabled='true'], [inert]) {
+    @apply opacity-60! pointer-events-none! cursor-default!;
   }
 
   h2,
   h3,
   h4 {
-    @apply font-normal ctext-heading mt-heading;
+    @apply font-normal text-accent;
   }
 
   h2 {
-    @apply text-3xl;
+    @apply text-3xl border-s-3 border-be border-current ps-2 pe-4 leading-snug;
   }
 
   h3 {
@@ -158,15 +178,30 @@
     @apply text-xl;
   }
 
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply scroll-mbs-2;
+  }
+
+  * + :is(h2, h3, h4, h5, h6) {
+    @apply mbs-heading;
+  }
+
   h5,
   h6 {
     @apply font-semibold text-base;
   }
 
-  h5,
-  h6,
-  :not(li) > :where(p, ul, ol, pre) {
-    @apply mt-paragraph;
+  :not(li) > * + :where(p, ul, ol, pre) {
+    @apply mbs-paragraph;
+  }
+
+  li > * + :where(p, ul, ol, pre),
+  * + li {
+    @apply mbs-1;
   }
 
   :not(li) > :where(ul, ol) {
@@ -185,36 +220,91 @@
     @apply list-decimal;
   }
 
-  a {
-    @apply ctext-link hover-focus:underline;
+  blockquote {
+    @apply my-4 mx-3 px-3 py-1 border-s-2 border-accent bg-quote-bg;
+  }
+
+  a:where(:any-link:not([aria-disabled='true'])) {
+    @apply text-link hover-focus:underline;
+  }
+
+  a:where([aria-disabled='true']) {
+    @apply text-link-disabled pointer-events-none;
+  }
+
+  input:where(:not([type]), [type='text']),
+  textarea {
+    @apply font-mono px-1 border border-border rounded;
+  }
+
+  button,
+  input:where([type='button']) {
+    @apply cursor-pointer;
+  }
+
+  code:where(:not(.astro-code code)) {
+    @apply bg-code-bg rounded px-1 dark:border dark:border-border-2;
   }
 
   table {
-    @apply w-max max-w-full me-auto;
+    @apply inline-max max-inline-full me-auto whitespace-nowrap wrap-normal;
 
     :where(& > thead > tr:last-child) {
-      @apply border-b cborder-border-2;
+      @apply border-be-3 border-double border-border-2;
     }
 
-    :where(& > :is(thead, tbody, tfoot) > tr:not(:last-child)) {
-      @apply border-b cborder-border;
+    :where(& > :is(thead, tbody) > tr:not(:last-child)) {
+      @apply border-be border-border;
+    }
+
+    :where(
+      &
+        > :is(thead, tbody)
+        > tr
+        > :is(td, th):is(:not(:first-child), .need-border)
+    ) {
+      @apply border-s border-border;
     }
 
     :where(td, th) {
-      @apply text-base py-1.25 px-2.5 text-center;
+      @apply text-base text-start py-1.25 px-2.5;
     }
   }
 
   .table-container:has(> table) {
-    @apply overflow-auto max-w-full my-figure;
+    @apply overflow-auto max-inline-full my-figure;
   }
 
   hr {
-    @apply my-5 mx-auto w-full max-w-160 cborder-border-2;
+    @apply my-figure mx-auto inline-full max-inline-160 border-border-2;
   }
 
   .astro-code {
-    @apply p-4 rounded my-figure;
+    @apply p-4 rounded-lg my-figure;
+
+    .line {
+      @apply inline-block;
+    }
+  }
+
+  .astro-code.has-diff .line.diff {
+    &.add {
+      @apply bg-lime-400/15;
+
+      &::before {
+        content: ' + ';
+        @apply text-lime-400;
+      }
+    }
+
+    &.remove {
+      @apply bg-red-600/15;
+
+      &::before {
+        content: ' - ';
+        @apply text-red-600;
+      }
+    }
   }
 
   strong,
