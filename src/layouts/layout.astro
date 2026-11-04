@@ -1,11 +1,12 @@
 ---
 import '../styles/main.css';
 import Loads from '../components/Loads.astro';
-interface Props {
-  frontmatter: {
-    readonly title: string;
-  };
-}
+import type { MarkdownLayoutProps } from 'astro';
+
+type Props = MarkdownLayoutProps<{
+  readonly title: string;
+}>;
+
 const { frontmatter } = Astro.props;
 ---
 
@@ -27,7 +28,62 @@ const { frontmatter } = Astro.props;
       </h1>
     </header>
     <main>
-      <slot />
+      <p class='__back-link'>
+        <a href='/.'>戻る</a>
+      </p>
+      <div class='__md-root'>
+        <slot />
+      </div>
     </main>
   </body>
 </html>
+
+<style lang="postcss">
+  @reference '../styles/main.css';
+
+  @layer components {
+    body {
+      @apply max-xl:flow-root xl:grid bg-side text-text;
+
+      grid-template-areas:
+        'h h h'
+        '. m .'
+        'f f f';
+
+      grid-template-columns:
+        minmax(min(var(--spacing-min-side), 100%), 1fr)
+        minmax(0, var(--spacing-max-main))
+        minmax(min(var(--spacing-min-side), 100%), 1fr);
+
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header,
+    main,
+    footer {
+      @apply flow-root;
+    }
+
+    header {
+      grid-area: h;
+    }
+
+    main {
+      @apply px-4 pbe-36 bg-main min-block-lvh;
+      grid-area: m;
+    }
+
+    footer {
+      grid-area: f;
+    }
+
+    #title {
+      @apply max-sm:text-4xl sm:text-5xl font-extralight font-title 
+        text-balance my-title-mb text-center;
+    }
+
+    .__back-link {
+      @apply my-6 ms-1;
+    }
+  }
+</style>
